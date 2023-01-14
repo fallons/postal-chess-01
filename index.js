@@ -69,4 +69,12 @@ app.get('/db', async (req, res) => {
     }
   })
   
-app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
+server = app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
+
+const io = require("socket.io")(server)
+
+//listen on every connection
+io.on('connection', (socket) => {
+  console.log('New browser connected to pure-basin-37825 socket.io server')
+
+})
