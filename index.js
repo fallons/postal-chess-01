@@ -1,5 +1,7 @@
-/* comment */
-/*
+/* 14/01/2022                                                                                     */
+/* Using eco dyno and 'mini' pgsql database. This is done to keep the cost down as                */
+/* Heroku started charging for dynos and databases                                                */
+/*                                                                                                */
 console.log('**************************************************************************************');
 console.log('*      ========= secret-shore-85438 ========                                         *');
 console.log('*      ========= postgresql-perpendicular-72828 using connection string ========     *');       
@@ -35,7 +37,6 @@ ssl: {
 // show connection string in server log
 //console.log('************** db conn string ************** ' + process.env.DATABASE_URL);
 //=================================================================================================
-
 app.use(express.static(path.join(__dirname, 'public')))
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
