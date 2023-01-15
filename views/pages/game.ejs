@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<!-- ............................................................................
+02/08/2022
+  file location moved to: pure-basin-37825/game.ejs .......
+bug list:
+(1) 
+able to select same colour as opponent if you close and re-open browser.
+proposed fix:
+none yet (24/04/2021).
+many fixes and new functions 08/12/2021..
+----------------------------------------------------------------------------------
+Chess V4.1.0
+Migrated to pure-basin-37825 as previous servers are no longer supported by Heroku
+All calls to still-shelf have been chnaged to pure-basin
+There are some calls to other servers that are not used for the Chess playing Application
+ these calls will fail is used because all servers other than pur-basin have been retired. 
+----
+Chess V3.1.1
+This is the finished app. Will be save to OneDrive - 'Heroku-Apps' Folder
+----
+Chess V3.0.1
+Prevent login as same colour as other player...
+ - does not work if player 1 has connects and logs in before player 2 has connected
+Pawn promotion works - can promote to queen,rook,bishop,knight
+colour of the last player is save to the database
+if game is interrupted after white move then loaded:
+(a) the white player is inhibited form moving
+(b) the white player can
+1. click the green tick icon to allow black to move and continue the intrrupted game
+OR
+2. click new game icon to initialise the board and take the first move
+----
+Chess V2.0.3
+full game test with Chris 23/04/2021 
+bug found (2) 
+when white logs in and selects white AND black logs in but forgets to select black
+then white can move and save move which causes black to see "unidentified's move"
+proposed fix (24/04/2021) 
+(a) white's browser code checks if black is there? if not...
+(b) if black is logged in then check if they have selected a colour
+----
+Chess V2.0.2.
+added selection box to allow user to choose which piece to promote a pawn into 
+----
+Chess V2.0.1
+minor changes to messages
+----
+Chess V2.0.0
+Added next player indicator in the information bar just below the board.
+---
+Chess V1.2.0
+This release provides an indicatation to the 'other' player of the move made by their 
+opponent which highlights the 'from' and 'to' squares with a background colour of red
+for a 3 second on period then returns to the original background colour
+---
+Chess V1.1.1
+This release has all the data base calls done by ajax async = false - i.e. synchronous
+synchronous da cass a are deprecated as they hold up execution.
+In future releases I plan to use promises and async calls as this is good practice but in fact that
+will not improve performance for this applicaion but will avoid the browser tab running this app blocking
+code running in other tabs
+-->
+<html>
+<head>
+
+<meta charset="utf-8">
+<meta id=viewport name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Chess V4.1.0</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="jslib.js"></script>
+<script src="gamelib.js"></script>
+
+<script
+src="https://code.jquery.com/jquery-3.4.1.js"
+integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+crossorigin="anonymous">
+</script>
+
+<style>
+
+#fullPage {
+z-index: -10;
+position: absolute;
+display: flex;
+flex-wrap: wrap;
+top: 0px;
+left:  0px;
+width:  101vw;
+height: 101vh;
+margin-top:  0px;
+margin-left: 0px;
+line-height: 0;
+/*background-color: rgb(223 165 208 / 0.88);*/
+background-color: #9e9e9e;
+justify-content: center; 
+align-items: center;
+}
+
+
+#gameSpace {
+position: relative;
+display: flex;
+flex-wrap: wrap;
+align-content: stretch;
+left:   0vw;
+/*height: 550px;*/
+width:  540px;
+margin-top:  30px;
+/*margin-left: 10px;*/
+line-height: 0;
+justify-content: center; 
+align-items: center;
+}
+
+.user_splash {
+position: absolute;
+top: 400px;
+left: 100px;
+height: 100px;
+width: 400px; 
+background-color: #ff9800;
+z-index: +15;
+word-wrap:break-word;
+word-break: break-all;
+}
+
+.pb {
+  width: 140px; 
+  border: 1px solid #000000;
+}
+
+p.c {
+  word-break: break-all;
+}
+
+#spanw {
+  display: none;
+}
+
+#spanb {
+  display: none;
+}
+
+#vribbonw {
+  display: none;
+}
+
+#vribbonb {
+  display: none;
+}
+
+.chSqV {
+height: 15px;
+width: 20px;
+/*background-color:  #fff8dcd8;*/
+border-width: 10px;
+border-style: solid;
+border-color: transparent;
+}
+
+.chSqC {
+height: 20px;
+width: 11.5px;
+/*background-color:  #fff8dcd8;*/
+border-width: 10px;
+border-style: solid;
+border-color:transparent;
+}
+
+.chSqH {
+height: 20px;
+width: 40px;
+/*background-color: #fff8dcd8;*/
+/*border-width: 10px;*/
+border-top-width: 10px;
+border-bottom-width: 10px;
+border-left-width: 10px;
+border-right-width: 10px;
+border-style: solid;
+border-color: transparent;
+}
+
+.chSqHL {
+height: 20px;
+width: 40px;
+/*background-color: #fff8dcd8;*/
+/*border-width: 10px;*/
+border-top-width: 10px;
+border-bottom-width: 0;
+border-left-width: 10px;
+border-right-width: 10px;
+border-style: solid;
+border-color: transparent;
+}
+
+.chSqW {
+height: 40px;
+width: 39px;
+background-color:  #fff8dcd8;
+border-width: 10px;
+border-style: solid;
+border-color: #fff8dcd8;
+}
+
+.chSqB {
+height: 40px;
+width: 39px;
+background-color: #a52a2ad8;
+border-width: 10px;
+border-style: solid;
+border-color: #a52a2ad8;
+}
+
+.show_border_color {
+  border-color: cyan;
+}
+
+#midPanel {
+position: relative;
+align-content: stretch;
+left:   0vw;
+height: 550px;
+width:  60px;
+border: 1px solid transparent;
+margin-top:  60px;
+margin-left: 0px;
+line-height: 0;
+}
+
+#controlSpace {
+position: relative;
+align-content: stretch;
+left:   0vw;
+height: 100px;
+width:  500px;
+/*border: 1px solid #a52a2a;*/
+margin-top:  0;
+margin-left: 0;
+line-height: 0;
+padding:10px;
+}
+
+#alertSpace {  /* keep for test purposes */
+display: none;
+position: relative;
+align-content: stretch;
+left:   0vw;
+height: 550px;
+width:  500px;
+border: 1px solid black;
+margin-top:  60px;
+margin-left: 60px;
+line-height: 0;
+}
+
+#controlSpace1 {
+position: relative;
+align-content: stretch;
+left:   1.3vw;
+height: 52px;
+width:  470px;
+/*background-color: #deb886a1;*/
+/*border: 1px solid burlywood;*/
+margin-top:  20px;
+margin-bottom: 50px;
+margin-left: 0px;
+line-height: 0;
+padding-left: 10px;
+}
+
+#chatspace {
+position: relative;
+align-content: stretch;
+left:   0vw;
+height: 70px;
+width:  500px;
+border-top: 20px solid transparent;
+margin-top:  0px;
+margin-left: 0px;
+line-height: 0;
+}
+
+#ribbon9 {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: stretch;
+  left:   0vw;
+  margin-top: 0px;
+  line-height: 0;
+}
+
+.info_med {
+  position: relative;
+  height: 35px;
+  width:  35px;
+  object-fit: fill;
+  margin: 6px;
+  padding: 2px;
+  border-style: solid;
+  border-color: lightslategray;
+  border: thin;
+}
+
+.show_border {
+/* border: solid 3px chartreuse; */
+border-top: solid 5px red;
+border-top-right-radius: 50%;
+border-top-left-radius: 50%;
+border-bottom: solid 5px red;
+border-bottom-right-radius: 50%;
+border-bottom-left-radius: 50%;
+}
+
+.info {
+  position: relative;
+  height: 50px;
+  width:  50px;
+  object-fit: fill;
+  margin: 6px;
+  padding: 0;
+  border-style: solid;
+  border-color: lightslategray;
+  border: thin;
+}
+
+.info_none {
+  position: relative;
+  height: 50px;
+  width:  50px;
+  object-fit: none;
+  margin: 6px;
+  padding: 0;
+  border-style: solid;
+  border-color: lightslategray;
+  border: 0;
+  border-radius: 15px;
+  background: #fff8dc00;
+}
+
+#ribbon1 {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: stretch;
+  left:   0vw;
+  margin-top: 0;
+  line-height: 0;
+}
+
+.info_small {
+  position: relative;
+  height: 28px;
+  width:  28px;
+  object-fit: fill;
+  margin: 1px;
+  padding: 0;
+  border-style: solid;
+  border-color: lightslategray;
+  border: thin;
+}
+
+#ribbon2 {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: stretch;
+  left:   0vw;
+  margin-top: 0;
+  line-height: 0;
+}
+
+textarea {
+  position: relative;
+ /*color: white;*/
+ color: black;
+ width: 493px;
+ height: 60px;
+ background: #deb886a1;
+ font-size: 0.7em;
+ font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.txtio {
+position: relative;
+ width: 493px;
+ height: 20px;
+ background: transparent;
+ font-size: 1em;
+ font-weight: bold;
+ font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.pio {
+ display: inline-block;
+ font-size: 1em;
+ font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.piohide {
+ display: inline-block;
+ font-size: 1em;
+ font-family: Verdana, Arial, Helvetica, sans-serif;
+ visibility: hidden;
+}
+
+/* Style the buttons inside the tab  */
+
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 2px 9px;
+  transition: 0.3s;
+  font-size: 24px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: inherit;
+  color:rgba(80, 14, 64, 0);
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border-top: none;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#wmsg_div {
+  /*border: solid rgb(189, 206, 38);*/
+  border: solid #a52a2ad8;
+  height: 40px;
+  width: 470px;
+  font-size: 1em;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  margin-top: 5px;
+  background-color: #fff8dc;
+}
+
+#amsg_div {
+  position: absolute;
+  top: 35px;
+  left: 53px;
+  border: solid #a52a2ad8;
+  height: 420px;
+  width: 470px;
+  font-size: 1em;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  margin-top: 5px;
+  background-color: #9e9e9e80;
+  visibility: hidden;
+}
+
+#bmsg_div {
+  position: absolute;
+  top: 453px;
+  left: 53px;
+  border: solid #a52a2ad8;
+  height: 60px;
+  width: 470px;
+  font-size: 1em;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  margin-top: 5px;
+  background-color:#9e9e9e;
+  visibility: hidden;
+}
+
+
+.login_txt {
+  background-color: #1ce330;
+  margin-top: 10px;
+  height: 30px;
+  width: 250px;
+  font-size: 1em;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.ph {
+border: solid 1px #9e9e9e00;
+text-align: center;
+width: 60px;
+font-size: 1.0em;
+font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+#hribbony {
+display: flex;
+flex-wrap: wrap;
+align-content: stretch;
+left:   0vw;
+width: 550px;
+height: 15px;
+margin-top:  0;
+margin-left: 0;
+line-height: 0;
+}
+
+#vribbonw {
+display: flex;
+flex-wrap: wrap;
+align-content: stretch;
+left:   0vw;
+height: 550px;
+width: 15px;
+margin-top:  60px;
+margin-left: 100px;
+line-height: 0;
+}
+
+#vribbonb {
+display: flex;
+flex-wrap: wrap;
+align-content: stretch;
+left:   0vw;
+height: 550px;
+width: 15px;
+margin-top:  60px;
+margin-left: 100px;
+line-height: 0;
+} 
+
+#vribbony {
+display: flex;
+flex-wrap: wrap;
+align-content: stretch;
+left:   0vw;
+height: 550px;
+width: 15px;
+margin-top:  60px;
+margin-left: 100px;
+line-height: 0;
+} 
+
+.pv {
+text-align: center;
+width: 15px;
+padding-left: 6px;
+padding-top: 5px;
+font-size: 0.9em;
+font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.vpad {
+text-align: center;
+width: 15px;
+}
+
+.blink_me {
+  animation: blinker 2.5s linear infinite;
+}
+
+@keyframes blinker {  
+  50% { opacity: 0.1; }
+}
+
+.move_me {
+  position: relative;
+  background-color:#88ee0f;
+  border-radius: 50px;
+  height: 30px;
+  width: 50px;
+}
+
+@keyframes MoveUpDown {
+  0%, 100% {
+    bottom: 0;
+  }
+  50% {
+    bottom: 10px;
+  }
+}
+
+#leftspan {
+  transform: rotateZ(90deg);
+  height: 10px;
+  width: 500px;
+}
+
+#confirm {
+display: none;
+background-color: pink;
+border: 1px solid #aaa;
+position: relative;
+width: 150px;
+height: 250px;
+padding: 6px 8px 8px;
+box-sizing: border-box;
+text-align: center;
+}
+#confirm button {
+background-color: lavender;
+display: inline-block;
+/*border-radius: 5px;*/
+/*border: 1px solid #aaa;*/
+padding: 5px;
+text-align: center;
+width: 80px;
+cursor: pointer;
+margin: 1px;
+}
+#confirm .message {
+text-align: left;
+line-height: 5;
+}
+
+#promo {
+line-height: 1;
+background-color: #0000ff36;
+display:none;
+}
+
+#welcome {
+position:relative;
+top: 100px;
+left:0;
+height: 500px;
+width: 500px;
+display:block
+}
+
+#container {
+  color: white;
+  background: #ddd;
+  width: 101vw;
+  height: 101vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#content {
+  background: #ddd;
+}
+
+#parent { white-space: nowrap; }
+
+.child { display: inline-block; }
+
+.bigGreen {
+  color: green;
+  font-size: x-large;
+}
+
+.round_btn {
+background-color: rgb(52, 238, 52);
+height: 50px;
+width: 50px;
+border-radius: 50%;
+margin: 20px;
+}
+
+.elhide {
+  visibility: hidden;
+}
+</style>
+</head>
+<body>
+<!-- ========================================================================================== -->	
+<!--   Body Here                                                                                -->
+<!-- ========================================================================================== -->  
+
+  <div hidden>
+  <h2>Database Results</h2>
+  <ul id="userlist">
+  <% results.forEach(function(r) { %>
+  <li><%= r.id %>,<%= r.saver_uid %></li>
+  <% }); %>
+  </ul>
+  </div>
+<!-- ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->  
+<!-- oooooooooooooooooooooooooooooo modified this on 21/10/2021    ooooooooooooooooooooooooooo --> 
+<!-- ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo --> 
+<div id="tabstrip" class="tab">
+  <button style="font-size:smaller;" class="tablinks" onclick="openTab(event, 'chessTab')">o</button>
+  <button style="font-size:smaller;" class="tablinks" onclick="openTab(event, 'infoTab')">o</button>
+  <button style="font-size:smaller;" class="tablinks" onclick="openTab(event, 'diagTab')">o</button>
+  <!--<button class="tablinks" onclick="openTab(event, 'homeTab')">H</button>-->
+</div> 
+
+<!--
+oooooooooooooooooooo Welcome Screen ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo  
+ The welcome screen is the first thing the user sees on loading the url                     
+ it is dynamically populated based on the 'results' object sent by the sever when         
+ 'game.ejs' (this file) is loaded                                                                                       
+  the results object contains the values
+                id................ the row id that has a matching userkey to the cookie
+                .................. OR if there is NO match this value is 99999999 
+                ..  ................ which is the row id for a pseudo username 'adam1'              
+                userkey........... a 9 digit integer in EPOCH MILLISECONDS TIMESTAMP format
+                username.......... either NULL - OR - a name value entered by the user  
+                userstatus........ tbd
+                usercolour........ NULL or WHITE or BLACK
+                userconnt......... a 9 digit integer in EPOCH MILLISECONDS TIMESTAMP format
+                ..................    this is written at the time of the INSERT ROW which
+                ..................    we do if a browser connects without a chess cookie
+                ..................    this field is the original connect time and is never
+                ..................    changed     
+oooooooooooooooooooo Welcome Screen ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo                                                                                             
+-->
+<!-- ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->  
+<!-- oooooooooooooooooooooooooooooo WELCOME TAB     oooooooooooooooooooooooooooooooooooooooooo --> 
+<!-- ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+<!--<div id="homeTab" class="tabcontent" style="line-height: 10px;">-->
+<br>
+<div id="container">
+  <div id="selcolour">
+    <p class="bigGreen">Select Colour</p>
+    <select id="selector"></select>
+    <p></p>
+    <button id="send_username"  button>Login</button>
+    
+    <p></p>
+    <button id="open_chess" class="tablinks elhide" onclick="openTab(event, 'chessTab')">Play Chess</button>
+    
+    <p></p>
+    <p id="login_msg" style="color: black ">XXX MESSAGE XXX</p>
+    <p></p>
+    <p id="info_msg" style="color: black ">XXX INFO MESSAGE XXX</p>
+    <p></p>
+    <p id="other_msg" style="color: red; font-size: larger; ">Select Colour and Login</p>
+<pre style="color: #673ab7; font-size: large;">
+Select Colour and Press Login
+
+If the "Play Chess" button appears it means the other player has logged in
+
+If the "Play Chess" button is not shown press Login until it is
+
+When the "Play Chess" button appears, press it to begin the game
+
+</pre>
+
+<button onclick="unhide_openchess()">o</button>
+
+  </div> <!-- end selcolour -->
+</div> <!-- end container -->
+
+<div id="welcome">
+  <p></p>
+  <p class=piohide id="welcome_msg_1" class="bigGreen">Welcome: </p>
+  <span class=piohide id=welcome_msg_2 >You last connected as : </span>
+  <span class=piohide id="usersname_3" style="color:red"></span>
+  <span class=piohide id="on_4"></span>
+  <span class=piohide id="userconnt_5" style="color:blue">...</span>
+  <p class=piohide id="line_6"></p>
+  <div class="piohide" id="change_username">
+    <button class="login_txt"  id="login_run" onclick="login_Run()">Use Previous User Name</button>
+    <input class="login_txt"  id="username" placeholder="Login Name"  value=""  type="text" />
+  </div> <!-- end change_username -->
+</div> <!-- welcome -->
+
+<!--</div> <!--  end "homeTab" -->
+
+<!-- ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->  
+<!-- oooooooooooooooooooooooooooooo WELCOME TAB END oooooooooooooooooooooooooooooooooooooooooo --> 
+<!-- ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo --> 
+
+
+<!-- ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->  
+<!-- oooooooooooooooooooooooooooooo CHESS TAB START oooooooooooooooooooooooooooooooooooooooooo --> 
+<!-- ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo --> 
+
+<div id="chessTab" class="tabcontent" style="line-height: 10px;">
+
+<div id="fullPage">
+ 
+<div id="gameSpace">
+
+  
+  <div id=amsg_div>
+    <p id=amsg></p>
+  </div> <!-- end amsg_div -->
+
+  <div id=bmsg_div>
+    <p id=bmsg></p>
+  </div> <!-- end bmsg_div -->
+
+  <!----
+  <div id=amsg_div>
+      <textarea name="amsg" id="dlog" placeholder="diag log..." class="vertical-align" cols="40" rows="15"></textarea>
+  </div> <!-- end amsg_div-->
+
+<br><br><br>
+<!-- This is the board - 64 divs alternating bg colours -->
+<div><img id="v9" src="en0.gif" alt="" class="chSqC" name=""></div>
+<div><img id="a9" src="ala.png" alt="" class="chSqH" name=""></div>
+<div><img id="b9" src="alb.png" alt="" class="chSqH" name=""></div>
+<div><img id="c9" src="alc.png" alt="" class="chSqH" name=""></div>
+<div><img id="d9" src="ald.png" alt="" class="chSqH" name=""></div>
+<div><img id="e9" src="ale.png" alt="" class="chSqH" name=""></div>
+<div><img id="f9" src="alf.png" alt="" class="chSqH" name=""></div>
+<div><img id="g9" src="alg.png" alt="" class="chSqHL" name=""></div>
+<div><img id="h9" src="alh.png" alt="" class="chSqH" name=""></div>
+
+<div><img id="v8" src="no8.png" alt="" class="chSqV" name=""></div>
+<div><img id="a8" src="en0.gif" alt="" class="chSqW" name="n56"  onclick="sq_clicked(this)"></div>
+<div><img id="b8" src="en0.gif" alt="" class="chSqB" name="n57"  onclick="sq_clicked(this)"></div>
+<div><img id="c8" src="en0.gif" alt="" class="chSqW" name="n58"  onclick="sq_clicked(this)"></div>
+<div><img id="d8" src="en0.gif" alt="" class="chSqB" name="n59"  onclick="sq_clicked(this)"></div>
+<div><img id="e8" src="en0.gif" alt="" class="chSqW" name="n60"  onclick="sq_clicked(this)"></div>
+<div><img id="f8" src="en0.gif" alt="" class="chSqB" name="n61"  onclick="sq_clicked(this)"></div>
+<div><img id="g8" src="en0.gif" alt="" class="chSqW" name="n62"  onclick="sq_clicked(this)"></div>
+<div><img id="h8" src="en0.gif" alt="" class="chSqB" name="n63"  onclick="sq_clicked(this)"></div>
+
+<div><img id="v7" src="no7.png" alt="" class="chSqV" name=""></div>
+<div><img id="a7" src="en0.gif" alt="" class="chSqB" name="n48"  onclick="sq_clicked(this)"></div>
+<div><img id="b7" src="en0.gif" alt="" class="chSqW" name="n49"  onclick="sq_clicked(this)"></div>
+<div><img id="c7" src="en0.gif" alt="" class="chSqB" name="n50"  onclick="sq_clicked(this)"></div>
+<div><img id="d7" src="en0.gif" alt="" class="chSqW" name="n51"  onclick="sq_clicked(this)"></div>
+<div><img id="e7" src="en0.gif" alt="" class="chSqB" name="n52"  onclick="sq_clicked(this)"></div>
+<div><img id="f7" src="en0.gif" alt="" class="chSqW" name="n53"  onclick="sq_clicked(this)"></div>
+<div><img id="g7" src="en0.gif" alt="" class="chSqB" name="n54"  onclick="sq_clicked(this)"></div>
+<div><img id="h7" src="en0.gif" alt="" class="chSqW" name="n55"  onclick="sq_clicked(this)"></div>
+
+<div><img id="v6" src="no6.png" alt="" class="chSqV" name=""></div>
+<div><img id="a6" src="en0.gif" alt="" class="chSqW" name="n40"  onclick="sq_clicked(this)"></div>
+<div><img id="b6" src="en0.gif" alt="" class="chSqB" name="n41"  onclick="sq_clicked(this)"></div>
+<div><img id="c6" src="en0.gif" alt="" class="chSqW" name="n42"  onclick="sq_clicked(this)"></div>
+<div><img id="d6" src="en0.gif" alt="" class="chSqB" name="n43"  onclick="sq_clicked(this)"></div>
+<div><img id="e6" src="en0.gif" alt="" class="chSqW" name="n44"  onclick="sq_clicked(this)"></div>
+<div><img id="f6" src="en0.gif" alt="" class="chSqB" name="n45"  onclick="sq_clicked(this)"></div>
+<div><img id="g6" src="en0.gif" alt="" class="chSqW" name="n46"  onclick="sq_clicked(this)"></div>
+<div><img id="h6" src="en0.gif" alt="" class="chSqB" name="n47"  onclick="sq_clicked(this)"></div>
+
+<div><img id="v5" src="no5.png" alt="" class="chSqV" name=""></div>
+<div><img id="a5" src="en0.gif" alt="" class="chSqB" name="n32"  onclick="sq_clicked(this)"></div>
+<div><img id="b5" src="en0.gif" alt="" class="chSqW" name="n33"  onclick="sq_clicked(this)"></div>
+<div><img id="c5" src="en0.gif" alt="" class="chSqB" name="n34"  onclick="sq_clicked(this)"></div>
+<div><img id="d5" src="en0.gif" alt="" class="chSqW" name="n35"  onclick="sq_clicked(this)"></div>
+<div><img id="e5" src="en0.gif" alt="" class="chSqB" name="n36"  onclick="sq_clicked(this)"></div>
+<div><img id="f5" src="en0.gif" alt="" class="chSqW" name="n37"  onclick="sq_clicked(this)"></div>
+<div><img id="g5" src="en0.gif" alt="" class="chSqB" name="n38"  onclick="sq_clicked(this)"></div>
+<div><img id="h5" src="en0.gif" alt="" class="chSqW" name="n39"  onclick="sq_clicked(this)"></div>
+
+<div><img id="v4" src="no4.png" alt="" class="chSqV" name=""></div>
+<div><img id="a4" src="en0.gif" alt="" class="chSqW" name="n24"  onclick="sq_clicked(this)"></div>
+<div><img id="b4" src="en0.gif" alt="" class="chSqB" name="n25"  onclick="sq_clicked(this)"></div>
+<div><img id="c4" src="en0.gif" alt="" class="chSqW" name="n26"  onclick="sq_clicked(this)"></div>
+<div><img id="d4" src="en0.gif" alt="" class="chSqB" name="n27"  onclick="sq_clicked(this)"></div>
+<div><img id="e4" src="en0.gif" alt="" class="chSqW" name="n28"  onclick="sq_clicked(this)"></div>
+<div><img id="f4" src="en0.gif" alt="" class="chSqB" name="n29"  onclick="sq_clicked(this)"></div>
+<div><img id="g4" src="en0.gif" alt="" class="chSqW" name="n30"  onclick="sq_clicked(this)"></div>
+<div><img id="h4" src="en0.gif" alt="" class="chSqB" name="n31"  onclick="sq_clicked(this)"></div>
+
+<div><img id="v3" src="no3.png" alt="" class="chSqV" name=""></div>
+<div><img id="a3" src="en0.gif" alt="" class="chSqB" name="n16"  onclick="sq_clicked(this)"></div>
+<div><img id="b3" src="en0.gif" alt="" class="chSqW" name="n17"  onclick="sq_clicked(this)"></div>
+<div><img id="c3" src="en0.gif" alt="" class="chSqB" name="n18"  onclick="sq_clicked(this)"></div>
+<div><img id="d3" src="en0.gif" alt="" class="chSqW" name="n19"  onclick="sq_clicked(this)"></div>
+<div><img id="e3" src="en0.gif" alt="" class="chSqB" name="n20"  onclick="sq_clicked(this)"></div>
+<div><img id="f3" src="en0.gif" alt="" class="chSqW" name="n21"  onclick="sq_clicked(this)"></div>
+<div><img id="g3" src="en0.gif" alt="" class="chSqB" name="n22"  onclick="sq_clicked(this)"></div>
+<div><img id="h3" src="en0.gif" alt="" class="chSqW" name="n23"  onclick="sq_clicked(this)"></div>
+
+<div><img id="v2" src="no2.png" alt="" class="chSqV" name=""></div>
+<div><img id="a2" src="en0.gif" alt="" class="chSqW" name="n08"  onclick="sq_clicked(this)"></div>
+<div><img id="b2" src="en0.gif" alt="" class="chSqB" name="n09"  onclick="sq_clicked(this)"></div>
+<div><img id="c2" src="en0.gif" alt="" class="chSqW" name="n10"  onclick="sq_clicked(this)"></div>
+<div><img id="d2" src="en0.gif" alt="" class="chSqB" name="n11"  onclick="sq_clicked(this)"></div>
+<div><img id="e2" src="en0.gif" alt="" class="chSqW" name="n12"  onclick="sq_clicked(this)"></div>
+<div><img id="f2" src="en0.gif" alt="" class="chSqB" name="n13"  onclick="sq_clicked(this)"></div>
+<div><img id="g2" src="en0.gif" alt="" class="chSqW" name="n14"  onclick="sq_clicked(this)"></div>
+<div><img id="h2" src="en0.gif" alt="" class="chSqB" name="n15"  onclick="sq_clicked(this)"></div>
+
+<div><img id="v1" src="no1.png" alt="" class="chSqV" name=""></div>  
+<div><img id="a1" src="en0.gif" alt="" class="chSqB" name="n00"  onclick="sq_clicked(this)"></div>
+<div><img id="b1" src="en0.gif" alt="" class="chSqW" name="n01"  onclick="sq_clicked(this)"></div>
+<div><img id="c1" src="en0.gif" alt="" class="chSqB" name="n02"  onclick="sq_clicked(this)"></div>
+<div><img id="d1" src="en0.gif" alt="" class="chSqW" name="n03"  onclick="sq_clicked(this)"></div>
+<div><img id="e1" src="en0.gif" alt="" class="chSqB" name="n04"  onclick="sq_clicked(this)"></div>
+<div><img id="f1" src="en0.gif" alt="" class="chSqW" name="n05"  onclick="sq_clicked(this)"></div>
+<div><img id="g1" src="en0.gif" alt="" class="chSqB" name="n06"  onclick="sq_clicked(this)"></div>
+<div><img id="h1" src="en0.gif" alt="" class="chSqW" name="n07"  onclick="sq_clicked(this)"></div>
+
+<!-- this is hidden --- vvvvvvv it provides a workspace in the dom -->
+<div hidden><img id="pih" src="en0.gif" alt="" class="pih" name="pih"></div>
+<!-- this is hidden --- vvvvvvv it provides some work space in the dom -->
+
+<div id="controlSpace1">
+
+<div id="ribbon9">
+  <div><img    id="undo"  src="return.png"     alt="" class="info_med"  name="undo"  title="Undo Move" onclick="ribbon1_item_clicked(this)"></div>
+  <div><img    id="q1"    src="en0.gif"        alt="" class="info_med"  name="vorderb" title="v order b"  onclick="ribbon1_item_clicked(this)"></div>
+  <div><img    id="r9pw"  src="pw0.gif"        alt="" class="info_med"  name="wrook" title="Red Circle Border = White to Move" onclick="ribbon1_item_clicked(this)"></div>
+  <div><img    id="q2"    src="en0.gif"        alt="" class="info_med"  name="horderb" title="h order b" onclick="ribbon1_item_clicked(this)"></div>
+  <div><img    id="save"  src="tcheckmark.png" alt="" class="info_med"  name="save" title="Save Move" onclick="ribbon1_item_clicked(this)"></div>
+  <div><img    id="q4"    src="en0.gif"        alt="" class="info_med"  name="clicksave" title="clicksave" onclick="ribbon1_item_clicked(this)"></div>
+  <div><img    id="r9pb"  src="pb0.gif"        alt="" class="info_med"  name="brook" title="Red Circle Border = Black to Move" onclick="ribbon1_item_clicked(this)"></div>
+  <div><img    id="q5"    src="en0.gif"        alt="" class="info_med"  name="pingo" title="pingo" onclick="ribbon1_item_clicked(this)"></div>
+  <div><img    id="new"   src="newchess2.jpg"  alt="" class="info_med"  name="new" title="New Game" onclick="ribbon1_item_clicked(this)"></div>
+</div> <!-- end ribbon9 -->
+
+<div id=wmsg_div>
+  <p id=wmsg></p>
+</div> <!-- end wmsg_div-->
+
+</div> <!-- end "controlSpace1" -->
+
+<div id="controlSpace">
+
+<div id="ribbon1">
+  <!-- place holder -->
+</div> <!-- end id="ribbon1" -->
+
+<div id="ribbon2">
+  <!-- this is the 'hospital' where dcaptured players are displayed - intended to be read only -->
+  <div><img    id="cap_wxx"  src="kw0.gif"   alt="" class="info_small"  onclick="ribbon2_item_clicked(this)"></div>
+  <div><img    id="w1"     src="en0.gif"     alt="" class="info_small"          onclick="ribbon2_item_clicked(this)"></div>
+  <div><img    id="w2"     src="en0.gif"     alt="" class="info_small"          onclick="ribbon2_item_clicked(this)"></div>
+  <div><img    id="w3"     src="en0.gif"     alt="" class="info_small"          onclick="ribbon2_item_clicked(this)"></div>
+  <div><img    id="w4"     src="en0.gif"     alt="" class="info_small"          onclick="ribbon2_item_clicked(this)"></div>
+  <div><img    id="w5"     src="en0.gif"     alt="" class="info_small"          onclick="ribbon2_item_clicked(this)"></div>
+  <div><img    id="w6"     src="en0.gif"     alt="" class="info_small"          onclick="ribbon2_item_clicked(this)"></div>
+  <div><img    id="w7"     src="en0.gif"     alt="" class="info_small"          onclick="ribbon2_item_clicked(this)"></div>
+  <div><img    id="w8"     src="en0.gif"     alt="" class="info_small"          onclick="ribbon2_item_clicked(this)"></div>
+  <div><img    id="w9"     src="en0.gif"     alt="" class="info_small"          onclick="ribbon2_item_clicked(this)"></div>
+  <div><img    id="w10"     src="en0.gif"     alt="" class="info_small"          onclick="ribbon2_item_clicked(this)"></div>
+  <div><img    id="w11"     src="en0.gif"     alt="" class="info_small"          onclick="ribbon2_item_clicked(this)"></div>
+  <div><img    id="w12"     src="en0.gif"     alt="" class="info_small"          onclick="ribbon2_item_clicked(this)"></div>
+  <div><img    id="w13"     src="en0.gif"     alt="" class="info_small"          onclick="ribbon2_item_clicked(this)"></div>
+  <div><img    id="w14"     src="en0.gif"     alt="" class="info_small"          onclick="ribbon2_item_clicked(this)"></div>
+  <div><img    id="w15"     src="en0.gif"     alt="" class="info_small"          onclick="ribbon2_item_clicked(this)"></div>
+
+  <div><img    id="cap_bxx"  src="kb0.gif"   alt="" class="info_small"          onclick="ribbon2_item_clicked(this)"></div>
+  <div><img    id="z1"     src="en0.gif"     alt="" class="info_small"          onclick="ribbon2_item_clicked(this)"></div>
+  <div><img    id="z2"     src="en0.gif"     alt="" class="info_small"          onclick="ribbon2_item_clicked(this)"></div>
+  <div><img    id="z3"     src="en0.gif"     alt="" class="info_small"          onclick="ribbon2_item_clicked(this)"></div>
+  <div><img    id="z4"     src="en0.gif"     alt="" class="info_small"          onclick="ribbon2_item_clicked(this)"></div>
+  <div><img    id="z5"     src="en0.gif"     alt="" class="info_small"          onclick="ribbon2_item_clicked(this)"></div>
+  <div><img    id="z6"     src="en0.gif"     alt="" class="info_small"          onclick="ribbon2_item_clicked(this)"></div>
+  <div><img    id="z7"     src="en0.gif"     alt="" class="info_small"          onclick="ribbon2_item_clicked(this)"></div>
+  <div><img    id="z8"     src="en0.gif"     alt="" class="info_small"          onclick="ribbon2_item_clicked(this)"></div>
+  <div><img    id="z9"     src="en0.gif"     alt="" class="info_small"          onclick="ribbon2_item_clicked(this)"></div>
+  <div><img    id="z10"     src="en0.gif"     alt="" class="info_small"          onclick="ribbon2_item_clicked(this)"></div>
+  <div><img    id="z11"     src="en0.gif"     alt="" class="info_small"          onclick="ribbon2_item_clicked(this)"></div>
+  <div><img    id="z12"     src="en0.gif"     alt="" class="info_small"          onclick="ribbon2_item_clicked(this)"></div>
+  <div><img    id="z13"     src="en0.gif"     alt="" class="info_small"          onclick="ribbon2_item_clicked(this)"></div>
+  <div><img    id="z14"     src="en0.gif"     alt="" class="info_small"          onclick="ribbon2_item_clicked(this)"></div>
+  <div><img    id="z15"     src="en0.gif"     alt="" class="info_small"          onclick="ribbon2_item_clicked(this)"></div>
+
+</div> <!-- end id="ribbon2"  -->
+
+<div>
+  <textarea hidden readonly id="wlog" placeholder="User Information"></textarea>
+</div>
+
+<p></p>
+
+<div hidden id="chatspace">
+  <p>Chat Room</p>
+
+<div hidden id="txtA1">
+<textarea readonly id="chatlog" rows="10" cols="50" placeholder="."></textarea>
+</div>
+
+<section hidden id="chatroom">
+  <section id="feedback"></section>
+</section>
+
+<section hidden id="input_zone"> 
+  <textarea id="message" rows="5" cols="50" placeholder="Write your message here"></textarea>
+  <!--<input id="message" class="vertical-align" type="text" /> -->
+  <button id="send_message" style="background-color: #ffeb3bb3; border-radius:10px; height:40px; width:110px;" class="vertical-align" type="button">Send Message</button>
+</section>
+
+<!-- <div id="msg1"></div> keep for diagnostics -->
+
+</div> <!-- end chatspace -->
+
+<div>
+  <p class="piohide">Player Colour Is: &nbsp;</p>
+  <p id="myclientid" class="piohide">...</p>
+  <br><br>
+  <p class="piohide">Login Name Is: &nbsp;  </p>
+  <p id="user_name" class="piohide">...</p>
+  <br><br>
+  <p class="piohide">Next Action Is: &nbsp;  </p>
+  <p id="next_action" class="piohide">...</p>
+</div>
+
+</div> <!--  end "controlSpace" -->
+
+</div> <!-- end id="gameSpace"  -->
+
+
+<div id="midPanel">
+   <!-- this is a vertical divider with a transparent border -->
+   <div id="confirm">
+    <div class="message"></div>
+       <button class="qu">Queen</button>
+       <button class="ro">Rook</button>
+       <button class="kn">Knight</button>
+       <button class="bi">Bishop</button>
+       <!--<button class="cancel_it">Cancel!</button>-->
+    </div>
+
+    <button id="promo" onclick='functionConfirm("Promote Pawn to ... ", 
+    function qu() 
+    {
+      alert("Queen")
+      g_promo_piece = "q"+myClientId+"1.gif"
+      alert("promo is " + g_promo_piece)
+   }, function ro() {
+      alert("You Clicked Rook")
+      g_promo_piece = "r"+myClientId+"1.gif"
+      alert("promo is " + g_promo_piece)
+   }, function kn() {
+      alert("You Clicked Knight")
+      g_promo_piece = "n"+myClientId+"1.gif"
+      alert("promo is " + g_promo_piece)
+   }, function bi() {
+      alert("You Clicked Bishop")
+      g_promo_piece = "b"+myClientId+"1.gif"
+      alert("promo is " + g_promo_piece)
+   },
+ );'>Click Me</button>
+
+</div> <!--  end "midPanel"  -->
+
+<div hidden id="alertSpace">
+</div> <!-- end alertSpace-->
+
+</div> <!--  end "fullPage" -->
+
+</div> <!--  end "chessTab" -->
+
+<!-- ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->  
+<!-- oooooooooooooooooooooooooooooo CHESS TAB END  ooooooooooooooooooooooooooooooooooooooooooo --> 
+<!-- ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo --> 
+
+<!-- ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->  
+<!-- oooooooooooooooooooooooooooooo DIAG TAB START oooooooooooooooooooooooooooooooooooooooooo --> 
+<!-- ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->  
+<div id="diagTab" class="tabcontent" style="line-height: 10px;">
+  <div id=diagbtns>
+    <br><br><br>
+<!-- ------------------------------------------------------------------------------------------ -->
+    <button style="background-color: Chartreuse;" onclick="list_bi_ar()">List g_bi_ar</button>
+    <button style="background-color: Chartreuse;" onclick="display_single_bi_ar(0)">Single g_bi_ar</button>
+    <button style="background-color: Chartreuse;" onclick="listAll_LS()">List All Local Storage</button>
+    <button style="background-color: Chartreuse;" onclick="dlog('test diagnostic log')">Test</button>
+    <button style="background-color: Chartreuse;" onclick="dlogX('test diagnostic log X')">Test X</button>
+    <button style="background-color: Chartreuse;" onclick="lsClr()">Clear Local Storage</button>
+    <button style="background-color: Chartreuse;" onclick="testemail()">Send an email</button>
+    <button style="background-color: Chartreuse;" onclick="testCastleWhiteEast()">Castle White East</button>
+    <button style="background-color: Chartreuse;" onclick="testCastleWhiteWest()">Castle White West</button>
+    <button style="background-color: Chartreuse;" onclick="testCastleBlackEast()">Castle Black East</button>
+    <button style="background-color: Chartreuse;" onclick="testCastleBlackWest()">Castle Black West</button>
+    <button style="background-color: Chartreuse;" onclick="testCastling()">Test Castling</button>
+    <button style="background-color: Chartreuse;" onclick="test_string_chop()">Test String Chop</button>
+    <button style="background-color: Chartreuse;" onclick="iskingincheck()">Is King in Check</button>
+    <br>
+    <button style="background-color: Chartreuse;" onclick="funcspare_1()">Spare_1</button>
+    <button style="background-color: Chartreuse;" onclick="change_piece()">Promote Pawn</button>
+    <button style="background-color: Chartreuse;" onclick="dbread_ho()">db read_ho</button>
+    <button style="background-color: Chartreuse;" onclick="pushImage('pw0')">pushImage w</button>
+    <button style="background-color: Chartreuse;" onclick="test_sync_db_write_the_read()">test sync write</button>
+    <button style="background-color: Chartreuse;" onclick="new_game()">new_game</button>
+    <button style="background-color: Chartreuse;" onclick="hiLite('10')">HiLite Test</button>
+    <button style="background-color: Chartreuse;" onclick="unhiLite('10')">Un HiLite Test</button>
+    <button style="background-color: Chartreuse;" onclick="enable_other_test('10','50')">enable other test</button>
+    <button style="background-color: Chartreuse;" onclick="change_class_test('10')">change class test</button>
+    <button style="background-color: Chartreuse;" onclick="addClass()">test addClass</button>
+    <button style="background-color: Chartreuse;" onclick="hiFromSq('32')">test hilight from</button>
+    <button style="background-color: Chartreuse;" onclick="hiLiteB('32')">test hilight square</button>
+    <button style="background-color: Chartreuse;" onclick="writelog('xxxx')">test writelog</button>
+    <button style="background-color: Chartreuse;" onclick="clickmybutton()">test click my button</button>
+    <button style="background-color: Chartreuse;" onclick="toggle_disp_none()">remove welcome msg</button>
+
+    <div><img   id="aa"   src="tools.png"  alt="" class="info"  name="g_diag_mode" title="" onclick="ribbon1_item_clicked(this)"></div>
+
+    
+    <button onclick="play(ding)"> Press Button </button>
+
+    <p>...</p>
+<!-- ----------------------------------------------------------------------------------------- -->
+    <button name="testthreats2"       onclick="item_clicked(this)">Test Threats 2</button>
+    <button name="dbread"             onclick="item_clicked(this)">Read DB</button>
+    <button name="new"                onclick="item_clicked(this)">New Board</button>
+    <button name="checkcontent"       onclick="item_clicked(this)">Test Check Content</button>
+    <button name="iskingincheck"      onclick="item_clicked(this)">Is King in Check</button>
+    <button name="testsqclicked"      onclick="item_clicked(this)">Test sq_clicked</button>
+    <br>
+    <button name="setclientid_w"       onclick="item_clicked(this)">Set Client Id to w</button>
+    <button name="setclientid_b"       onclick="item_clicked(this)">Set Client Id to b</button>
+    <button name="save"                onclick="item_clicked(this)">Save Board</button>
+    <button name="inhibit_other_white"  onclick="item_clicked(this)">Prevent Other Selecting White</button>
+    <button name="inhibit_other_black"  onclick="item_clicked(this)">Prevent Other Selecting Black</button>
+    <button name="rotate_board"         onclick="item_clicked(this)">Rotate Board</button>
+
+<!-- ------------------------------------------------------------------------------------------ -->
+  </div> <!-- diagbtns  -->
+
+  <form action="javascript:;" onsubmit="formSubmitHandler4(this)">
+    <input type="text" id="idxy" name="idxy" value="pxy">
+    <input type="submit" value="Test Threat to Square at XY  " style="background-color: chartreuse;" /> 
+  </form> 
+  
+  <section id="input_zone2"> 
+    <input id="keyparm" class="vertical-align" type="text" />
+    <button style="background-color: Chartreuse;" onclick="displaySingle_LS()">Display Local Storage by Key</button>
+  </section> <!-- input_zone2 -->
+
+  <section id="input_zone3"> 
+    <input id="keyparm2" class="vertical-align" type="text" />
+    <button style="background-color: Chartreuse;" onclick="displaySingle_bi_ar()">Display Board Array by Index</button>
+  </section> <!-- input_zone3 -->
+
+  <section id="input_zone4"> 
+    <input id="emailsubject" class="vertical-align" type="text"  placeholder="subject..." />
+    <input id="emailtoaddress" class="vertical-align" type="text"  placeholder="to address..." />
+    <button style="background-color: Chartreuse;" onclick="diagemail()">Send email</button>
+  </section> <!-- input_zone4 -->
+
+  <section id="input_zone5"> 
+    <input id="testemit2c" class="vertical-align" type="text"  placeholder="emit message2c..." />
+    <button style="background-color: Chartreuse;" onclick="testemit2c()">Test Emit 2c</button>
+  </section> <!-- input_zone4 -->
+
+  <section>
+    <textarea name="dlog" id="dlog" placeholder="diag log..." class="vertical-align" cols="40" rows="15"></textarea>
+  </section>
+
+  <section>
+    <textarea name="msg" id="mailbody" placeholder="mail message..." class="vertical-align" cols="40" rows="5"></textarea>
+  </section>
+  
+</div> <!-- end diagTab -->
+<!-- ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->  
+<!-- oooooooooooooooooooooooooooooo DIAG TAB END  oooooooooooooooooooooooooooooooooooooooooooo --> 
+<!-- ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo --> 
+
+<!-- ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->  
+<!-- oooooooooooooooooooooooooooooo INFO TAB START ooooooooooooooooooooooooooooooooooooooooooo --> 
+<!-- ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo --> 
+
+<div id="infoTab" class="tabcontent" style="line-height: 40px;">
+
+  <br><br><br>
+
+<button style="background-color: Chartreuse;" onclick="clickmybutton()">test click my button</button>
+
+</div> <!-- end infoTab -->
+<!-- ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->  
+<!-- oooooooooooooooooooooooooooooo INFO TAB END ooooooooooooooooooooooooooooooooooooooooooooo --> 
+<!-- ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo --> 
+
+<script>
+
+"use strict"
+
+console.log('start game.ejs')
+
+droplist();
+
+var inputG = document.getElementById("username");
+//
+var userlist_csv  = document.getElementById("userlist").innerText;
+var userlist_arr  = userlist_csv.split(",");
+//-----------------------------------------
+var id          = userlist_arr[0];
+var saver_uid   = userlist_arr[1];
+var g_saver_uid = saver_uid.substring(0,1);
+
+//alert('Last move was by: ' + g_saver_uid);
+
+if (g_saver_uid == "w") {
+  var g_screen_white = true;
+} 
+
+var g_sq_arr   = [                                                                            
+      'a1','b1','c1','d1','e1','f1','g1','h1',                                          
+      'a2','b2','c2','d2','e2','f2','g2','h2',                                          
+      'a3','b3','c3','d3','e3','f3','g3','h3',                                          
+      'a4','b4','c4','d4','e4','f4','g4','h4',                                          
+      'a5','b5','c5','d5','e5','f5','g5','h5',                                          
+      'a6','b6','c6','d6','e6','f6','g6','h6',                                          
+      'a7','b7','c7','d7','e7','f7','g7','h7',                                          
+      'a8','b8','c8','d8','e8','f8','g8','h8'                                           
+      ];     
+
+var rd1 = "rw0.gif,nw0.gif,bw0.gif,qw0.gif,kw0.gif,bw0.gif,nw0.gif,rw0.gif," 
+var rd2 = "pw0.gif,pw0.gif,pw0.gif,pw0.gif,pw0.gif,pw0.gif,pw0.gif,pw0.gif," 
+var rd3 = "en0.gif,en0.gif,en0.gif,en0.gif,en0.gif,en0.gif,en0.gif,en0.gif,"
+var rd4 = "en0.gif,en0.gif,en0.gif,en0.gif,en0.gif,en0.gif,en0.gif,en0.gif,"
+var rd5 = "en0.gif,en0.gif,en0.gif,en0.gif,en0.gif,en0.gif,en0.gif,en0.gif,"
+var rd6 = "en0.gif,en0.gif,en0.gif,en0.gif,en0.gif,en0.gif,en0.gif,en0.gif,"
+var rd7 = "pb0.gif,pb0.gif,pb0.gif,pb0.gif,pb0.gif,pb0.gif,pb0.gif,pb0.gif,"
+var rd8 = "rb0.gif,nb0.gif,bb0.gif,qb0.gif,kb0.gif,bb0.gif,nb0.gif,rb0.gif,"
+var new_board = rd1 + rd2 + rd3 + rd4 + rd5 + rd6 + rd7 + rd8;      
+var g_bi_csv = new_board;
+var g_bi_ar = g_bi_csv.split(','); 
+
+//-------------------------------------------------------------------------------------------------
+var g_sh_arr   = [                                                                              
+    'w1','w2','w3','w4','w5','w6','w7','w8','w9','w10','w11','w12','w13','w14','w15',                                           
+    'z1','z2','z3','z4','z5','z6','z7','z8','z9','z10','z11','z12','z13','z14','z15'                                                                              
+    ];
+
+var ho1 = "rw0.gif,nw0.gif,bw0.gif,qw0.gif,bw0.gif,nw0.gif,rw0.gif," 
+var ho2 = "pw0.gif,pw0.gif,pw0.gif,pw0.gif,pw0.gif,pw0.gif,pw0.gif,pw0.gif," 
+var ho3 = "rb0.gif,nb0.gif,bb0.gif,qb0.gif,bb0.gif,nb0.gif,rb0.gif," 
+var ho4 = "pb0.gif,pb0.gif,pb0.gif,pb0.gif,pb0.gif,pb0.gif,pb0.gif,pb0.gif," 
+var new_hospital = ho1 + ho2 + ho3 + ho4;      
+var g_hi_csv = new_hospital;
+var g_hi_ar = g_hi_csv.split(',');
+//-------------------------------------------------------------------------------------------------
+$(document).ready(function() {
+// populate a newly set up board image for cosmetic purposes only
+// it will be oriented with white at the bottom  
+for (var i = 0; i<g_sq_arr.length; i++) {
+var img = g_bi_ar[i]; 
+document.getElementById(g_sq_arr[i]).src = img;
+}
+//------------------
+// populate a newly set up board hospital image for cosmetic purposes only 
+for (var i = 0; i<g_sh_arr.length; i++) {
+var img = g_hi_ar[i]; 
+document.getElementById(g_sh_arr[i]).src = img;
+}
+});
+//================================================================================================
+// more functions
+//=================================================================================================
+// openTab gets called when the user clicks a tab 
+// parms are 
+//'evt'      - is a MouseEvent
+// 'tabName' - in this case it can be 'Login' or 'Chess' or 'Diags' all of which
+// are the id of the first <div> element in the block of html that you want displayed
+// in the 'tab' which has a class of "tabcontent"
+// for example the first <div> in our 'Login' tab looks like this ... <div id="Login" class="tabcontent">
+  function openTab(evt, tabName) {
+  dlog('*** openTab ' +tabName);
+  var i, tabcontent, tablinks;
+  switch (tabName) {
+//-----------------------------------------------------------------------------
+  case "chessTab":
+    
+  if (!g_logged_in) {
+    alert('Please Login')
+  return 
+  }
+
+  if (g_inhibit_play_button) {
+    alert('Choose Other Colour');
+    g_inhibit_play_button = false;
+    console.log('g_inhibit_play_button ' + g_inhibit_play_button);
+  return 
+  }
+
+
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  
+  document.getElementById(tabName).style.display = "block";
+  evt.currentTarget.className += " active";
+
+  hide_welcome();
+
+  if (g_screen_white && myClientId == "w") {
+    //alert('screen_white');
+    screen_white();
+  }
+
+  break;
+//-----------------------------------------------------------------------------
+  case "diagTab":
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(tabName).style.display = "block";
+  evt.currentTarget.className += " active";
+  break;
+//-----------------------------------------------------------------------------
+case "infoTab":
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(tabName).style.display = "block";
+  evt.currentTarget.className += " active";
+  break;
+  //---------------------------------------------------------------------------
+  //-----------------------------------------------------------------------------
+  /*
+case "homeTab":
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(tabName).style.display = "block";
+  evt.currentTarget.className += " active";
+  break;
+  */
+  //---------------------------------------------------------------------------
+  default:
+  dlog('case not matched');
+}
+}
+//=================================================================================================
+//
+//=================================================================================================
+function toggle_disp_none() {
+  var x = document.getElementById("welcome");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+//=================================================================================================
+//
+//=================================================================================================
+function hide_welcome() {
+  var x = document.getElementById("welcome");
+  var y = document.getElementById("container");
+    x.style.display = "none";
+    y.style.display = "none";
+  }
+//=================================================================================================
+//
+//=================================================================================================
+function toggle_hide() {
+  var x = document.getElementById("change_username");
+   x.style.visibility = "hidden";
+  }
+//=================================================================================================
+//
+//=================================================================================================
+function unhide_openchess() {
+  var x = document.getElementById("open_chess");
+   x.style.visibility = "visible";
+  }
+
+//=================================================================================================
+//
+//=================================================================================================
+function screen_white() {
+  var x = document.getElementById("amsg");
+   x.style.visibility = "visible";
+   var x = document.getElementById("amsg_div");
+   x.style.visibility = "visible";
+   var x = document.getElementById("bmsg");
+   x.style.visibility = "visible";
+   var x = document.getElementById("bmsg_div");
+   x.style.visibility = "visible";
+  }
+//=================================================================================================
+//
+//=================================================================================================
+function unscreen_white() {
+  var x = document.getElementById("amsg");
+   x.style.visibility = "hidden";
+   var x = document.getElementById("amsg_div");
+   x.style.visibility = "hidden";
+   var x = document.getElementById("bmsg");
+   x.style.visibility = "hidden";
+   var x = document.getElementById("bmsg_div");
+   x.style.visibility = "hidden";
+  }
+//=================================================================================================
+//
+//=================================================================================================
+function toggle_spanw() {
+  var y = document.getElementById("spany");
+  y.style.display = "none";
+  var x = document.getElementById("spanw");
+  if (x.style.display === "none" || x.style.display == "") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+//=================================================================================================
+//
+//=================================================================================================
+function toggle_spanb() {
+  var y = document.getElementById("spany");
+  y.style.display = "none";
+  var x = document.getElementById("spanb");
+  if (x.style.display === "none" || x.style.display == "") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+//=================================================================================================
+//
+//=================================================================================================
+function toggle_vribbonw() {
+  var y = document.getElementById("vribbony");
+  y.style.display = "none";
+  var x = document.getElementById("vribbonw");
+  if (x.style.display === "none" || x.style.display == "") {
+    x.style.display = "flex";
+  } else {
+    x.style.display = "none";
+  }
+}
+//=================================================================================================
+//
+//=================================================================================================
+function toggle_vribbonb() {
+  var y = document.getElementById("vribbony");
+  y.style.display = "none";
+  var x = document.getElementById("vribbonb");
+  if (x.style.display === "none" || x.style.display == "") {
+    x.style.display = "flex";
+  } else {
+    x.style.display = "none";
+  }
+}
+//=================================================================================================
+//
+//=================================================================================================
+function toff_hribbonw() {
+  var x = document.getElementById("hribbonw");
+  if (x.style.display === "none" || x.style.display == "") {
+    x.style.display = "none";
+  } else {
+    x.style.display = "none";
+  }
+}
+//=================================================================================================
+//
+//=================================================================================================
+function toggle_hribbonw() {
+  var y = document.getElementById("hribbony");
+  y.style.display = "none";
+  var x = document.getElementById("hribbonw");
+  if (x.style.display === "none" || x.style.display == "") {
+    x.style.display = "flex";
+  } else {
+    x.style.display = "none";
+  }
+}
+//=================================================================================================
+//
+//=================================================================================================
+function toggle_hribbonb() {
+  var y = document.getElementById("hribbony");
+  y.style.display = "none";
+  var x = document.getElementById("hribbonb");
+  if (x.style.display === "none" || x.style.display == "") {
+    x.style.display = "flex";
+  } else {
+    x.style.display = "none";
+  }
+}
+//=================================================================================================
+//
+//=================================================================================================
+function toggle_hribbony() {
+  var y = document.getElementById("hribbony");
+  y.style.display = "none";
+  var x = document.getElementById("hribbonw");
+  if (x.style.display === "none" || x.style.display == "") {
+    x.style.display = "flex";
+  } else {
+    x.style.display = "none";
+  } 
+}
+
+function send_login_reply(reply) {
+  switch (reply) {
+case "OK":
+ alert('case OK');
+      
+ break;
+case "NO":
+ alert('case NO');
+ break;
+default:
+ break;
+}
+}
+
+function login_Run() {
+            inputG.value = username;
+            $("send_username").click();
+            console.log('login run button clicked');
+            var sf1 = 1;
+
+} 
+
+function login_Run_1_old() {
+    inputG.value = document.getElementById("text_id").value;
+    $("send_username").click();
+    console.log('login run1 old button clicked');
+    var sf1 = 1;
+
+}  
+
+function login_Run_1(selected_user) {
+    //inputG.value = document.getElementById("text_id").value;
+    inputG.value = selected_user
+    $("send_username").click();
+    console.log('login run1 button clicked');
+    var sf1 = 1;
+
+}
+           
+function myGeeks() {
+        var txt = document.getElementById("text_id").value;
+        document.getElementById("username").innerHTML = txt;
+        }
+
+
+function droplist() {
+        var data = [
+{name:'',id:''},
+{name:'white',id:'white'},
+{name:'black',id:'black'}
+]
+
+data.forEach(function(item){
+var option = document.createElement('option');
+option.value = item.id;
+option.innerHTML = item.name;
+selector.appendChild(option)
+})
+
+selector.onchange = function(){
+//alert(this.value);
+login_Run_1(this.value);
+var sf2 = 2;
+} 
+
+}
+</script>        
+        
+</body>
+ 
+</html>                         
