@@ -1,6 +1,7 @@
 /* 14/01/2022                                                                                     */
 /* Using eco dyno and 'mini' pgsql database. This is done to keep the cost down as                */
 /* Heroku started charging for dynos and databases                                                */
+/* This will be the new location for the 'Chess' program */
 /*                                                                                                */
 console.log('**************************************************************************************');
 console.log('*      ========= secret-shore-85438 ========                                         *');
