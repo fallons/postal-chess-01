@@ -1,5 +1,5 @@
 //=================================================================================================
-//  written for pure-basin-37825
+//  written for secret-shore-85438
 //  this is a portable set of functions to handle interactions with the server code
 //  date: 23/02/2021 
 //=================================================================================================
@@ -32,7 +32,7 @@ function writelog() {
 //---------------------------------------------------
   return new Promise((resolve, reject) => {
   $.ajax({
-  url: 'https://pure-basin-37825.herokuapp.com/writelog',
+  url: 'https://secret-shore-85438.herokuapp.com/writelog',
   type: 'POST',
   data: {
   log_tod:     g_tod,
@@ -61,7 +61,7 @@ function readallusers() {
 console.log('==> readallusers');
 return new Promise((resolve, reject) => {
 $.ajax({
-url: 'https://pure-basin-37825.herokuapp.com/readallusers',
+url: 'https://secret-shore-85438.herokuapp.com/readallusers',
 type: 'POST',
 data: {
 key: 'value',
@@ -86,7 +86,7 @@ function readplayers() {
   console.log('==> readplayers');
   return new Promise((resolve, reject) => {
   $.ajax({
-  url: 'https://pure-basin-37825.herokuapp.com/readplayers',
+  url: 'https://secret-shore-85438.herokuapp.com/readplayers',
   type: 'POST',
   data: {
   key: 'value',
@@ -467,7 +467,7 @@ async function  login()  {
 //=================================================================================================
 async function  call_login() {
   console.log('enter call_login');
-    $.post('https://pure-basin-37825.herokuapp.com/testf',  
+    $.post('https://secret-shore-85438.herokuapp.com/testf',  
     {
       //
     log_tod      : "123456789",
@@ -684,7 +684,7 @@ subject = mysubject;
 mytext = mymsg;
 html = myhtml;
 
-$.post('https://pure-basin-37825.herokuapp.com/testemail',
+$.post('https://secret-shore-85438.herokuapp.com/testemail',
 {
 toaddr: toaddr,
 subject: mysubject,
@@ -719,8 +719,8 @@ return false; //don't submit
 //=================================================================================================
 $(function(){ 
 
-console.log('from pure-basin-37825 make socket.io connection to https://pure-basin-37825.herokuapp.com as "socket"');
-var socket = io.connect('https://pure-basin-37825.herokuapp.com');
+console.log('from secret-shore-85438 make socket.io connection to https://secret-shore-85438.herokuapp.com as "socket"');
+var socket = io.connect('https://secret-shore-85438.herokuapp.com');
 var clientid             = $("#clientid");
 var send_clientid        = $("#send_clientid")
 var message2c            = $("#message2c")
@@ -789,8 +789,8 @@ feedback2c.html("<p><i>" + data.clientid + " is typing a message..." + "</i></p>
 	
 $(function(){
     //make connection
-      console.log('from pure-basin-37825 - make socket.io connection to https://pure-basin-37825.herokuapp.com as "socket1"');
-      var socket1 = io.connect('https://pure-basin-37825.herokuapp.com');
+      console.log('from secret-shore-85438 - make socket.io connection to https://secret-shore-85438.herokuapp.com as "socket1"');
+      var socket1 = io.connect('https://secret-shore-85438.herokuapp.com');
       //buttons and inputs
       var message = $("#message")
       var username = $("#username")

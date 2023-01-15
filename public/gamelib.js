@@ -1,5 +1,5 @@
 //=================================================================================================
-//  written for pure-basin-37825
+//  written for secret-shore-85438
 //  this is a specific set of functions for the client side operation
 //  date: 23/02/2021 
 //=================================================================================================
@@ -13,7 +13,7 @@ console.log('start gamelib')
 //=================================================================================================
 
 //=================================================================================================
-var socket = io.connect('https://pure-basin-37825.herokuapp.com'); 
+var socket = io.connect('https://secret-shore-85438.herokuapp.com'); 
 //=================================================================================================
 // Used for diagnostic logging - dlog,printlog - **must be at start of script**
 //=================================================================================================
@@ -2681,7 +2681,7 @@ function new_game() {
   $.ajax( 
   {
   type: "POST",
-  url:  "https://pure-basin-37825.herokuapp.com/updbim",
+  url:  "https://secret-shore-85438.herokuapp.com/updbim",
   async: false,  //  <================== sync request
   dataType : "json",
   contentType: "application/json; charset=utf-8",
@@ -2744,7 +2744,7 @@ function new_game_1() {
   $.ajax( 
   {
   type: "POST",
-  url:  "https://pure-basin-37825.herokuapp.com/updbim",
+  url:  "https://secret-shore-85438.herokuapp.com/updbim",
   async: false,  //  <================== sync request
   dataType : "json",
   contentType: "application/json; charset=utf-8",
@@ -2791,7 +2791,7 @@ var response_string;
 $.ajax( 
 {
 type: "POST",
-url:  "https://pure-basin-37825.herokuapp.com/dbread",
+url:  "https://secret-shore-85438.herokuapp.com/dbread",
 async: false,  //  <================== sync request
 dataType : "json",
 contentType: "application/json; charset=utf-8",
@@ -2903,7 +2903,7 @@ function dbread_ho() {
   $.ajax( 
   {
   type: "POST",
-  url:  "https://pure-basin-37825.herokuapp.com/dbread",
+  url:  "https://secret-shore-85438.herokuapp.com/dbread",
   async: false,  //  <================== sync request
   dataType : "json",
   contentType: "application/json; charset=utf-8",
@@ -3859,7 +3859,7 @@ function dbwrite_move_status(ubi) {
   $.ajax( 
   {
   type: "POST",
-  url:  "https://pure-basin-37825.herokuapp.com/updbim",
+  url:  "https://secret-shore-85438.herokuapp.com/updbim",
   async: false,  //  <================== sync request
   dataType : "json",
   contentType: "application/json; charset=utf-8",
@@ -3912,7 +3912,7 @@ function dbwrite_move_hospital(uhi) {
   var row_id,row_data1;
   row_id = 2; // this row is ONLY UPDATED in THIS LINE OF CODE for hospital image
   row_data1 = uhi;
-  $.post('https://pure-basin-37825.herokuapp.com/updbim',
+  $.post('https://secret-shore-85438.herokuapp.com/updbim',
   {
   row_id: row_id,
   row_data1: row_data1,
@@ -4069,7 +4069,7 @@ var g1Safe = false;
 dlogX('==> testCastleWhiteEast')
 
 //check that all square are empty between king and rook
-var testgif1=  "https://pure-basin-37825.herokuapp.com/en0.gif"
+var testgif1=  "https://secret-shore-85438.herokuapp.com/en0.gif"
 var sqf1 = document.getElementById('f1').src;
 var sqg1 = document.getElementById('g1').src;
 
@@ -4082,7 +4082,7 @@ dlogX('f1 and g1 NOT empty')
 }
 
 // check that rook has not moved
-var testgif2 = "https://pure-basin-37825.herokuapp.com/rw0.gif"
+var testgif2 = "https://secret-shore-85438.herokuapp.com/rw0.gif"
 var rwe = document.getElementById('h1').src;
 if (rwe == testgif2) {
 var r_notmoved = true;
@@ -4091,7 +4091,7 @@ dlogX('White Rook East HAS MOVED')
 }
 
 // check that king has not moved
-var testgif3 = "https://pure-basin-37825.herokuapp.com/kw0.gif"
+var testgif3 = "https://secret-shore-85438.herokuapp.com/kw0.gif"
 var kwe = document.getElementById('e1').src;
 if (kwe == testgif3) {
 var kw_wenotmoved = true;
@@ -4136,7 +4136,7 @@ var d1Safe = false;
 dlogX('==> testCastleWhiteWest')
 
 //check that all square are empty between king and rook
-var testgif1 = "https://pure-basin-37825.herokuapp.com/en0.gif"
+var testgif1 = "https://secret-shore-85438.herokuapp.com/en0.gif"
 var sqb1 = document.getElementById('b1').src;
 var sqc1 = document.getElementById('c1').src;
 var sqd1 = document.getElementById('d1').src;
@@ -4150,7 +4150,7 @@ dlogX('b1 and c1 and d1 NOT empty');
 }
 
 // check that rook has not moved
-var testgif2 = "https://pure-basin-37825.herokuapp.com/rw0.gif"
+var testgif2 = "https://secret-shore-85438.herokuapp.com/rw0.gif"
 var rwe = document.getElementById('a1').src;
 if (rwe == testgif2) {
 var r_notmoved = true;
@@ -4159,7 +4159,7 @@ dlogX('White Rook West HAS MOVED')
 }
 
 // check that king has not moved
-var testgif3 = "https://pure-basin-37825.herokuapp.com/kw0.gif"
+var testgif3 = "https://secret-shore-85438.herokuapp.com/kw0.gif"
 var kwe = document.getElementById('e1').src;
 if (kwe == testgif3) {
 var kw_wenotmoved = true;
@@ -4210,7 +4210,7 @@ var g8Safe = false;
 dlogX('==> testCastleBlackEast')
 
 //check that all square are empty between king and rook
-var testgif1 = "https://pure-basin-37825.herokuapp.com/en0.gif"
+var testgif1 = "https://secret-shore-85438.herokuapp.com/en0.gif"
 var sqf8 = document.getElementById('f8').src;
 var sqg8 = document.getElementById('g8').src;
 
@@ -4223,7 +4223,7 @@ dlogX('f8 and g8 NOT empty')
 }
 
 // check that rook has not moved
-var testgif2 = "https://pure-basin-37825.herokuapp.com/rb0.gif"
+var testgif2 = "https://secret-shore-85438.herokuapp.com/rb0.gif"
 var rwe = document.getElementById('h8').src;
 if (rwe == testgif2) {
 var r_notmoved = true;
@@ -4232,7 +4232,7 @@ dlogX('Black Rook West HAS MOVED')
 }
 
 // check that king has not moved
-var testgif3 = "https://pure-basin-37825.herokuapp.com/kb0.gif"
+var testgif3 = "https://secret-shore-85438.herokuapp.com/kb0.gif"
 var kbe = document.getElementById('e8').src;
 if (kbe == testgif3) {
 var kw_wenotmoved = true;
@@ -4277,7 +4277,7 @@ var d8Safe = false;
 dlogX('==> testCastleBlackWest')
 
 //check that all square are empty between king and rook
-var testgif1 = "https://pure-basin-37825.herokuapp.com/en0.gif"
+var testgif1 = "https://secret-shore-85438.herokuapp.com/en0.gif"
 var sqb8 = document.getElementById('b8').src;
 var sqc8 = document.getElementById('c8').src;
 var sqd8 = document.getElementById('d8').src;
@@ -4291,7 +4291,7 @@ dlogX('b8 and c8 and d8 NOT empty')
 }
 
 // check that rook has not moved
-var testgif2 = "https://pure-basin-37825.herokuapp.com/rb0.gif"
+var testgif2 = "https://secret-shore-85438.herokuapp.com/rb0.gif"
 var rwe = document.getElementById('h8').src;
 if (rwe == testgif2) {
 var r_notmoved = true;
@@ -4300,7 +4300,7 @@ dlogX('Black Rook West HAS MOVED')
 }
 
 // check that king has not moved
-var testgif3 = "https://pure-basin-37825.herokuapp.com/kb0.gif"
+var testgif3 = "https://secret-shore-85438.herokuapp.com/kb0.gif"
 var kwe = document.getElementById('e8').src;
 if (kwe == testgif3) {
 var kw_wenotmoved = true;
@@ -4822,7 +4822,7 @@ function test_sync_db_write_the_read() {
     $.ajax( 
     {
     type: "POST",
-    url:  "https://pure-basin-37825.herokuapp.com/dbread",
+    url:  "https://secret-shore-85438.herokuapp.com/dbread",
     async: false,  //  <================== sync request
     dataType : "json",
     contentType: "application/json; charset=utf-8",
