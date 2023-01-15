@@ -789,8 +789,8 @@ feedback2c.html("<p><i>" + data.clientid + " is typing a message..." + "</i></p>
 	
 $(function(){
     //make connection
-      console.log('from pure-basin-37825 - make socket.io connection to https://pure-basin-37825.herokuapp.com as "socket1"');
-      var socket1 = io.connect('https://pure-basin-37825.herokuapp.com');
+      console.log('from pure-basin-37825 - make socket.io connection to https://secret-shore-85438.herokuapp.com as "socket1"');
+      var socket1 = io.connect('https://secret-shore-85438.herokuapp.com');
       //buttons and inputs
       var message = $("#message")
       var username = $("#username")
