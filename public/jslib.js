@@ -1,5 +1,5 @@
 //=================================================================================================
-//  written for secret-shore-85438
+//  written for pure-basin-37825
 //  this is a portable set of functions to handle interactions with the server code
 //  date: 23/02/2021 
 //=================================================================================================
@@ -32,7 +32,7 @@ function writelog() {
 //---------------------------------------------------
   return new Promise((resolve, reject) => {
   $.ajax({
-  url: 'https://secret-shore-85438.herokuapp.com/writelog',
+  url: 'https://pure-basin-37825.herokuapp.com/writelog',
   type: 'POST',
   data: {
   log_tod:     g_tod,
@@ -61,7 +61,7 @@ function readallusers() {
 console.log('==> readallusers');
 return new Promise((resolve, reject) => {
 $.ajax({
-  url: 'https://secret-shore-85438.herokuapp.com/readallusers',
+url: 'https://pure-basin-37825.herokuapp.com/readallusers',
 type: 'POST',
 data: {
 key: 'value',
@@ -86,7 +86,7 @@ function readplayers() {
   console.log('==> readplayers');
   return new Promise((resolve, reject) => {
   $.ajax({
-  url: 'https://secret-shore-85438.herokuapp.com/readplayers',
+  url: 'https://pure-basin-37825.herokuapp.com/readplayers',
   type: 'POST',
   data: {
   key: 'value',
@@ -118,7 +118,7 @@ username = username;
 userstatus = userstatus;
 return new Promise((resolve, reject) => {
 $.ajax({
-url: 'https://secret-shore-85438.herokuapp.com/insertuser',
+url: 'https://young-hamlet-57834.herokuapp.com/insertuser',
 type: 'POST',
 data: {
 userkey:    userkey,
@@ -145,7 +145,7 @@ function rsGet(rskey) {
 console.log('==> rsGet()');
 return new Promise((resolve, reject) => {
 $.ajax({
-url: 'https://secret-shore-85438.herokuapp.com/rsget',
+url: 'https://young-hamlet-57834.herokuapp.com/rsget',
 type: 'POST',
 data: {
 rskey: rskey,
@@ -167,7 +167,7 @@ function rsSet(rskey,rsvalue) {
 console.log('==> rsSet()');
 return new Promise((resolve, reject) => {
 $.ajax({
-url: 'https://secret-shore-85438.herokuapp.com/rsset',
+url: 'https://young-hamlet-57834.herokuapp.com/rsset',
 type: 'POST',
 data: {
 rskey: rskey,
@@ -191,7 +191,7 @@ console.log('==> stackpop()');
 var rskey = "abc"
 return new Promise((resolve, reject) => {
 $.ajax({
-url: 'https://secret-shore-85438.herokuapp.com/stackpop',
+url: 'https://young-hamlet-57834.herokuapp.com/stackpop',
 type: 'POST',
 data: {
 //stackdata : stackdata,
@@ -214,7 +214,7 @@ console.log('==> stackpush()');
 var rskey = "abc"
 return new Promise((resolve, reject) => {
 $.ajax({
-url: 'https://secret-shore-85438.herokuapp.com/stackpush',
+url: 'https://young-hamlet-57834.herokuapp.com/stackpush',
 type: 'POST',
 data: {
 stackdata: stackdata,
@@ -236,7 +236,7 @@ function getstackptr() {
 console.log('==> getstackptr()');
 return new Promise((resolve, reject) => {
 $.ajax({
-url: 'https://secret-shore-85438.herokuapp.com/getstackptr',
+url: 'https://young-hamlet-57834.herokuapp.com/getstackptr',
 type: 'POST',
 data: {
 // no data posted
@@ -259,7 +259,7 @@ console.log('==> test_app_lock()');
 //var mylock = lsGet("mycookie")
 return new Promise((resolve, reject) => {
 $.ajax({
-url: 'https://secret-shore-85438.herokuapp.com/test_app_lock',
+url: 'https://young-hamlet-57834.herokuapp.com/test_app_lock',
 type: 'POST',
 data: {
 //mylock: mylock,
@@ -282,7 +282,7 @@ console.log('==> get_app_lock()');
 var mylock = lsGet("mycookie")
 return new Promise((resolve, reject) => {
 $.ajax({
-url: 'https://secret-shore-85438.herokuapp.com/get_app_lock',
+url: 'https://young-hamlet-57834.herokuapp.com/get_app_lock',
 type: 'POST',
 data: {
 mylock: mylock,
@@ -305,7 +305,7 @@ console.log('==> free_app_lock()');
 var mylock = lsGet("mycookie")
 return new Promise((resolve, reject) => {
 $.ajax({
-url: 'https://secret-shore-85438.herokuapp.com/free_app_lock',
+url: 'https://young-hamlet-57834.herokuapp.com/free_app_lock',
 type: 'POST',
 data: {
 mylock: mylock,
@@ -328,7 +328,7 @@ console.log('==> force_free()');
 //var mylock = lsGet("mycookie")
 return new Promise((resolve, reject) => {
 $.ajax({
-url: 'https://secret-shore-85438.herokuapp.com/force_free',
+url: 'https://young-hamlet-57834.herokuapp.com/force_free',
 type: 'POST',
 data: {
 //mylock: mylock,
@@ -789,8 +789,8 @@ feedback2c.html("<p><i>" + data.clientid + " is typing a message..." + "</i></p>
 	
 $(function(){
     //make connection
-      console.log('from pure-basin-37825 - make socket.io connection to https://secret-shore-85438.herokuapp.com as "socket1"');
-      var socket1 = io.connect('https://secret-shore-85438.herokuapp.com');
+      console.log('from pure-basin-37825 - make socket.io connection to https://pure-basin-37825.herokuapp.com as "socket1"');
+      var socket1 = io.connect('https://pure-basin-37825.herokuapp.com');
       //buttons and inputs
       var message = $("#message")
       var username = $("#username")
