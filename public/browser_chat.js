@@ -5,6 +5,7 @@ $(function(){
 	//buttons and inputs
 	var message = $("#message")
 	var message2c = $("#message2c")
+	var message_browser = $("message_browser")
 	var browserid = $("#browserid")
 	var send_browserid = $("#send_browserid")
 	var send_message = $("#send_message")
@@ -31,18 +32,25 @@ $(function(){
 	}
 	})
 
-		//Listen on new_message2c
-		socket.on("new_message2c", (data) => {
-			feedback.html('');
-			message.val('');
-			chatroom.append("<p class='message'>" + data.username + ": " + data.message + "</p>")
-			if (data.username == 'steve') {
-			alert('user msg ' + data.username + ' ' + data.message)
-		} else { 	
-			var a = 1;
-			alert('not steve ' + a); 
-		}
-		})
+	//Listen on new_message2c
+	socket.on("new_message2c", (data) => {
+		feedback.html('');
+		message.val('');
+		chatroom.append("<p class='message'>" + data.username + ": " + data.message + "</p>")
+		if (data.username == 'steve') {
+		alert('user msg ' + data.username + ' ' + data.message)
+	} else { 	
+		var a = 1;
+		alert('not steve ' + a); 
+	}
+	})
+
+	//Listen on message_browser
+	socket.on("message_browser", (data) => {
+		feedback.html('');
+		message.val('');
+		chatroom.append("<p class='message'>" + data.username + ": " + data.message_browser + "</p>")
+	})
 
 	//Emit a username
 	send_username.click(function(){

@@ -1031,6 +1031,12 @@ io.sockets.emit('new_message2c', {message : data.message, clientid : socket.clie
 console.log('********** new_message2c ' + data.message + " ; " + "clientid >>> " + data.clientid);
 })
 
+socket.on('new_message', (data) => {
+  io.sockets.emit('new_message', {message : data.message, username : socket.username});
+  console.log('>>>>  server pure-basin-37825 received socket.on "new_message" ' + JSON.stringify(data) + ' <<<<< ')
+  console.log('********** new_message ' + data.message);
+  })
+
 socket.on('typing', (data) => {
 socket.broadcast.emit('typing', {username : socket.username})
 console.log('BROADCAST EMIT ********** typing ' + socket.username)
