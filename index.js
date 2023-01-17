@@ -1032,9 +1032,10 @@ console.log('********** new_message2c ' + data.message + " ; " + "clientid >>> "
 })
 
 socket.on('message_browser', (data) => {
+  console.log('********** message_browser ' + data.message);
   io.sockets.emit('message_browser', {message : data.message, browserid : socket.browserid});
   console.log('>>>>  server secret-shore-85438 received socket.on "message_browser" ' + JSON.stringify(data) + ' <<<<< ')
-  console.log('********** new_message ' + data.message);
+  console.log('********** message_browser ' + data.message);
   })
 
 socket.on('typing', (data) => {
