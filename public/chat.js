@@ -1,6 +1,6 @@
 $(function(){
     console.log('chat.js called');
-	var socket = io.connect('https://pure-basin-37825.herokuapp.com/');
+	var socket = io.connect('https://secret-shore-85438.herokuapp.com/');
 
 	//buttons and inputs
 	var message = $("#message")
