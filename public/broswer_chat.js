@@ -1,5 +1,5 @@
 $(function(){
-    console.log('chat.js called');
+    console.log('browser_chat.js called');
 	var socket = io.connect('https://secret-shore-85438.herokuapp.com/');
 
 	//buttons and inputs
