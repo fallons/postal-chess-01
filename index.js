@@ -997,6 +997,12 @@ console.log('Change User Name: '  + socket.username)
 console.log('socket.username: ' + socket.username)
 })
 
+//listen on change_browserid
+socket.on('change_browserid', (data) => {
+  socket.browserid = data.browserid
+  console.log('Change browserid: '  + socket.browserid)
+  })
+
 //listen on test01
 socket.on('test01', (data) => {
 socket.broadcast.emit('test01', {username : socket.username})
