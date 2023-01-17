@@ -272,6 +272,7 @@ app.get('/chat', (req, res) => {
 app.get('/brchat', (req, res) => {
   console.log('*************** brchat Route Called ***************');
   res.render('pages/browser_chat');
+  console.log('*************** after render ***************');
   res.end;
   })
 
