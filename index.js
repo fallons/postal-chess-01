@@ -1032,9 +1032,9 @@ console.log('********** new_message2c ' + data.message + " ; " + "clientid >>> "
 })
 
 socket.on('message_browser', (data) => {
-  io.sockets.emit('message_browser', {message : data.message_browser, username : socket.username});
-  console.log('>>>>  server pure-basin-37825 received socket.on "new_message" ' + JSON.stringify(data) + ' <<<<< ')
-  console.log('********** new_message ' + data.message_browser);
+  io.sockets.emit('message_browser', {message : data.message, username : socket.username});
+  console.log('>>>>  server pure-basin-37825 received socket.on "message_browser" ' + JSON.stringify(data) + ' <<<<< ')
+  console.log('********** new_message ' + data.message);
   })
 
 socket.on('typing', (data) => {
