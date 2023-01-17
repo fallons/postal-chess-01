@@ -984,7 +984,7 @@ const io = require("socket.io")(server)
 
 //listen on every connection
 io.on('connection', (socket) => {
-console.log('New browser connected to pure-basin-37825 socket.io server')
+console.log('New browser connected to secret-shore-85438 socket.io server')
 
 //set default username
 socket.username = "Anonymous"
