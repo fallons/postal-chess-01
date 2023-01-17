@@ -268,7 +268,7 @@ app.get('/chat', (req, res) => {
 //===================================================================================================================
 // /brchat
 //===================================================================================================================
-// here is where we come in with /chat request
+// here is where we come in with /brchat request
 app.get('/brchat', (req, res) => {
   console.log('*************** brchat Route Called ***************');
   res.render('pages/browser_chat');
