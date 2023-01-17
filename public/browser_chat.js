@@ -52,7 +52,7 @@ $(function(){
 	}
 	})
 
-	//Listen on message_browser
+	//Listen on message_browser.
 	socket.on("message_browser", (data) => {
 		feedback.html('');
 		message.val('');
