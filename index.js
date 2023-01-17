@@ -1032,8 +1032,8 @@ console.log('********** new_message2c ' + data.message + " ; " + "clientid >>> "
 })
 
 socket.on('message_browser', (data) => {
-  io.sockets.emit('message_browser', {message : data.message, username : socket.username});
-  console.log('>>>>  server pure-basin-37825 received socket.on "message_browser" ' + JSON.stringify(data) + ' <<<<< ')
+  io.sockets.emit('message_browser', {message : data.message, browserid : socket.browserid});
+  console.log('>>>>  server secret-shore-85438 received socket.on "message_browser" ' + JSON.stringify(data) + ' <<<<< ')
   console.log('********** new_message ' + data.message);
   })
 
