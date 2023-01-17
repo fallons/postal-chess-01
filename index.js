@@ -265,6 +265,16 @@ app.get('/chat', (req, res) => {
   res.end;
   })
 
+//===================================================================================================================
+// /brchat
+//===================================================================================================================
+// here is where we come in with /chat request
+app.get('/brchat', (req, res) => {
+  console.log('*************** brchat Route Called ***************');
+  res.render('pages/browser_chat');
+  res.end;
+  })
+
 //========================================================================================================================================
 // ROUTE POST /writelog ... call function  writelog() - log each move when user presses save
 // DELETE FROM logtable WHERE id>0;
