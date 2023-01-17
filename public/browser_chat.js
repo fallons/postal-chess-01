@@ -6,6 +6,7 @@ $(function(){
 	var message = $("#message")
 	var message2c = $("#message2c")
 	var browserid = $("#browserid")
+	var send_browserid = $("#send_browserid")
 	var send_message = $("#send_message")
 	var send_username = $("#send_username")
 	var chatroom = $("#chatroom")
@@ -46,6 +47,11 @@ $(function(){
 	//Emit a username
 	send_username.click(function(){
 		socket.emit('change_username', {username : username.val()})
+	})
+
+	//Emit a username
+	send_browserid.click(function(){
+		socket.emit('change_username', {browserid : browserid.val()})
 	})
 
 	//Emit typing
