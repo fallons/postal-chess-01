@@ -9,6 +9,7 @@ $(function(){
 	var browserid = $("#browserid")
 	var send_browserid = $("#send_browserid")
 	var send_message = $("#send_message")
+	var send_message_browser = $("#send_message_browser")
 	var send_username = $("#send_username")
 	var chatroom = $("#chatroom")
 	var feedback_browser = $("#feedback_browser")
@@ -17,6 +18,12 @@ $(function(){
 	send_message.click(function(){
 		socket.emit('new_message', {message : message.val()})
 		console.log('new_message: ' + message.val() + ' end')
+	})
+
+	//Emit message
+	send_message_browser.click(function(){
+		socket.emit('message_browser', {message : message_browser.val()})
+		console.log('message_browser: ' + message_browser.val() + ' end')
 	})
 
 	//Listen on new_message
@@ -49,7 +56,7 @@ $(function(){
 	socket.on("message_browser", (data) => {
 		feedback.html('');
 		message.val('');
-		chatroom.append("<p class='message'>" + data.username + ": " + data.message_browser + "</p>")
+		chatroom.append("<p class='message'>" + data.username + ": " + data.message + "</p>")
 	})
 
 	//Emit a username
