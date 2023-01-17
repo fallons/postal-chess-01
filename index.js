@@ -991,6 +991,10 @@ console.log('New browser connected to secret-shore-85438 socket.io server')
 socket.username = "Anonymous"
 console.log('socket.username: ' + socket.username)
 
+//set default username
+socket.browserid = "nobrowserid"
+console.log('socket.browserid: ' + socket.browserid)
+
 //listen on change_username
 socket.on('change_username', (data) => {
 socket.username = data.username
