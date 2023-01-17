@@ -54,7 +54,7 @@ $(function(){
 
 	//Listen on message_browser.
 	socket.on("message_browser", (data) => {
-		browser_feedback.html('');
+		feedback_browser.html('');
 		message.val('');
 		chatroom.append("<p class='message'>" + data.username + ": " + data.message + "</p>")
 	})
