@@ -51,7 +51,7 @@ $(function(){
 
 	//Emit a username
 	send_browserid.click(function(){
-		socket.emit('change_username', {browserid : browserid.val()})
+		socket.emit('change_browserid', {browserid : browserid.val()})
 	})
 
 	//Emit typing
