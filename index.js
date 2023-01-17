@@ -1031,10 +1031,10 @@ io.sockets.emit('new_message2c', {message : data.message, clientid : socket.clie
 console.log('********** new_message2c ' + data.message + " ; " + "clientid >>> " + data.clientid);
 })
 
-socket.on('new_message', (data) => {
-  io.sockets.emit('new_message', {message : data.message, username : socket.username});
+socket.on('new_message_browser', (data) => {
+  io.sockets.emit('new_message_browser', {message : data.message_browser, username : socket.username});
   console.log('>>>>  server pure-basin-37825 received socket.on "new_message" ' + JSON.stringify(data) + ' <<<<< ')
-  console.log('********** new_message ' + data.message);
+  console.log('********** new_message ' + data.message_browser);
   })
 
 socket.on('typing', (data) => {
