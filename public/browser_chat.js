@@ -5,11 +5,11 @@ $(function(){
 	//buttons and inputs
 	var message = $("#message")
 	var message2c = $("#message2c")
-	var username = $("#username")
+	var browserid = $("#browserid")
 	var send_message = $("#send_message")
 	var send_username = $("#send_username")
 	var chatroom = $("#chatroom")
-	var feedback = $("#feedback")
+	var feedback_browser = $("#feedback_browser")
 
 	//Emit message
 	send_message.click(function(){
