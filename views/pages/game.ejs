@@ -748,6 +748,7 @@ When the "Play Chess" button appears, press it to begin the game
 
 <button onclick="touch_other()">Touch Other</button>
 <button onclick="retouch_other()">Retouch Other</button>
+<button onclick="makeid()">Make ID</button>
 
 <button onclick="unhide_openchess()">o</button>
 
@@ -1167,6 +1168,20 @@ When the "Play Chess" button appears, press it to begin the game
 <script>
 
 "use strict"
+
+function makeid(length) {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      counter += 1;
+    }
+    return result;
+}
+
+console.log(makeid(5));
 
 console.log('start game.ejs')
 
