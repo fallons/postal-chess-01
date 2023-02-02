@@ -1170,13 +1170,15 @@ When the "Play Chess" button appears, press it to begin the game
 
 "use strict"
 
+var g_myrandomid = makeid(5);
+
 function call_makeid() {
   console.log('call random ' + makeid(10));
 }
 
 function call_txMsg() {
   console.log('call random');
-  txMsg('001','mymsg');
+  txMsg(g_myrandomid,'001,mymsg');
 }
 
 function makeid(length) {
@@ -1195,7 +1197,7 @@ function makeid(length) {
 
 //console.log('random id' + makeid(5));
 
-var g_myrandomid = makeid(5);
+v
 
 console.log('start game.ejs')
 
