@@ -373,7 +373,6 @@ function dlog(textToAppend) {
 // dlogX() a utility to print daignostic information
 //=================================================================================================
 function dlogX(textToAppend) {
-  /*
   console.log('dlogX: ' + textToAppend);
     var txa = textToAppend;
     //
@@ -387,7 +386,6 @@ function dlogX(textToAppend) {
     function clear_dlog() {
     var table = document.getElementById("dlog");
     table.innerHTML = "";
-    */
     }
 
 //=================================================================================================
