@@ -3973,11 +3973,13 @@ dlogX('<== end inhibit_other_from_selecting_black');
 //
 //=================================================================================================
 function ping_other() {
-  dlog('==> begin ping_other');
+  //dlog('==> begin ping_other');
+  console.log('==> ping other')
   txMsg(myClientId,"001,ping_other");
   //
   //
-  dlog('<== end ping_other');
+  //dlog('<== end ping_other');
+  console.log('<== ping other')
   }
 //=================================================================================================
 function reply_other(target) {
