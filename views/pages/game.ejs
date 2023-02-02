@@ -749,6 +749,7 @@ When the "Play Chess" button appears, press it to begin the game
 <button onclick="touch_other()">Touch Other</button>
 <button onclick="retouch_other()">Retouch Other</button>
 <button onclick="call_makeid()">Make ID</button>
+<button onclick="call_txMsg()">Call txMsg</button>
 
 <button onclick="unhide_openchess()">o</button>
 
@@ -1173,6 +1174,11 @@ function call_makeid() {
   console.log('call random ' + makeid(10));
 }
 
+function call_txMsg() {
+  console.log('call random');
+  txMsg('001','mymsg');
+}
+
 function makeid(length) {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -1184,6 +1190,8 @@ function makeid(length) {
     }
     return result;
 }
+
+
 
 //console.log('random id' + makeid(5));
 
