@@ -3988,6 +3988,32 @@ function reply_other(target) {
   //
   dlog('<== end reply_other');
   }
+
+//=================================================================================================
+// touch_other() -- send message -- 
+//
+// The purpose of this is to send a 'touch' meesage to the other browser.
+// The other browser sends a 'retouch' to the originator
+//
+//
+//=================================================================================================
+function touch_other() {
+  //dlog('==> begin touch_other');
+  console.log('==> touch other')
+  txMsg(myClientId,"001,touch_other");
+  //
+  //
+  //dlog('<== end touch_other');
+  console.log('<== touch other')
+  }
+//=================================================================================================
+function retouch_other(target) {
+  dlog('==> begin retouch_other');
+  txMsg(target,"001,retouch_other");
+  //
+  dlog('<== end retouch_other');
+  }
+
 //=================================================================================================
 // general service functions end
 //=================================================================================================
