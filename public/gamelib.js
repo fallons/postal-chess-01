@@ -4540,6 +4540,28 @@ dbread();
 dbread_ho();
 break;
 //=================================================================================================
+//=================================================================================================
+case "touch_other" :
+dlogX('touch_other recieved from ' + idOrigin);
+//alert('touch other recieved from ' + idOrigin + 'by ' + myClientId);
+document.getElementById("other_msg").innerHTML =  myClientId + " says... " + idOrigin + " touched me"
+if (idOrigin == "w" || idOrigin == "b") {
+  //unhide_openchess();
+}
+break;
+//=================================================================================================
+//=================================================================================================
+case "retouch_other" :
+dlogX('retouch_other recieved from ' + idOrigin);
+//alert('retouch other recieved from ' + idOrigin + 'by ' + myClientId);
+document.getElementById("other_msg").innerHTML =  myClientId + " says... " + idOrigin + " my retouch"
+if (idOrigin == "w" || idOrigin == "b") {
+  //unhide_openchess();
+}
+break;
+//=================================================================================================
+
+//=================================================================================================
 default:
 dlog('msg from other');
 dlog('fcode not 000');
