@@ -1026,11 +1026,21 @@ console.log('>>>>  server pure-basin-37825 received socket.on "new_message" ' + 
 console.log('********** new_message ' + data.message);
 })
 
-socket.on('new_message2c', (data) => {
-io.sockets.emit('new_message2c', {message : data.message, clientid : socket.clientid});
-console.log('********** new_message2c ' + data.message + " ; " + "clientid >>> " + data.clientid);
-})
+//------------------------------------------------------------------------------------------------
+// working version
+//------------------------------------------------------------------------------------------------
+//socket.on('new_message2c', (data) => {
+//io.sockets.emit('new_message2c', {message : data.message, clientid : socket.clientid});
+//console.log('********** new_message2c ' + data.message + " ; " + "clientid >>> " + data.clientid);
+//})
+//------------------------------------------------------------------------------------------------
 
+socket.on('new_message2c', (data) => {
+  io.sockets.emit('new_message2c', {message : data.message, clientid : socket.clientid});
+  console.log('*** test version new_message2c ' + data.message + " ; " + "clientid >>> " + data.clientid);
+  })
+
+  //----------------------------------------------------------------------------------------
 socket.on('message_browser', (data) => {
   console.log('********** message_browser ' + data.message);
   io.sockets.emit('message_browser', {message : data.message, browserid : socket.browserid});
