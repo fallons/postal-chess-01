@@ -4007,8 +4007,7 @@ function touch_other() {
   console.log('<== touch other')
   }
 //=================================================================================================
-function retouch_other(target)
-  ) {
+function retouch_other(target) {
   dlog('==> begin retouch_other');
   txMsg(target,"001,retouch_other");
   //
