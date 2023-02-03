@@ -53,7 +53,7 @@ app.get('/', (req, res) => res.render('pages/index'))
 //=================================================================================================
 app.get('/cookietest', (req, res) => {
   let randomid = makeid(5);
-  console.log(randomid)
+  console.log('randomid = ' + randomid)
   // read cookies
   console.log('********* COOKIE TEST *************');
   console.log('**** req cookies ****' + JSON.stringify(req.cookies));
