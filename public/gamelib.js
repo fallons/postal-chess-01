@@ -4022,7 +4022,7 @@ function retouch_other(target) {
 // diagnosic and testing functions start
 //=================================================================================================
 function txMsg(clid, txMsg) {
-console.log('function txMsg called with message... ' +  'txMsg: ' + txMsg  + ' clid: ' + clid + ' end');
+console.log('function txMsg called with message... ' +  'txMsg: ' + txMsg  + ' clid: ' + clid + ' test_item: ' + g_myrandomid + ' end');
 dlog('function txMsg called with message... ' + txMsg);
 socket.emit('new_message2c', {message : txMsg, clientid : clid, test_item : "testing_123"})
 }
