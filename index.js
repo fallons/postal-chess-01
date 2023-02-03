@@ -45,7 +45,23 @@ app.use(cors())
 //=================================================================================================
 // Routes
 //=================================================================================================
-//
+  app.get('/cookietest', (req, res) => {
+    // read cookies
+    console.log('********* COOKIE TEST *************');
+    console.log('**** req cookies ****' + JSON.stringify(req.cookies));
+    console.log('**** req query **** ' + req.query.p1)  
+
+    let options = {
+        maxAge: 1000 * 60 * 15 // would expire after 15 minutes
+        //httpOnly: true, // The cookie only accessible by the web server
+        //signed: true // Indicates if the cookie should be signed
+    }
+
+    // Set cookie
+    res.cookie('cookieName', 'cookieValue', options) // options is optional
+    res.send('')
+})
+
 //=================================================================================================
 // this is the /chess route 
 //=================================================================================================
