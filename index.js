@@ -67,7 +67,7 @@ app.get('/cookietest', (req, res) => {
 
   // Set cookie
   res.cookie('cookieName', 'cookieValue', options) // options is optional
-  res.send('')
+  res.send('cookie test complete')
 
   function makeid(length) {
     let result = '';
