@@ -1037,7 +1037,7 @@ console.log('********** new_message ' + data.message);
 
 socket.on('new_message2c', (data) => {
   io.sockets.emit('new_message2c', {message : data.message, clientid : socket.clientid});
-  console.log('*test new_message2c ' + data.message + " ; " + "clientid " + data.clientid + " ; " + "test_item " + data.test_item);
+  console.log('*test new_message2c ' + data.message + " ; " + "clientid " + data.clientid + " ; " + "unique_browserid " + data.unique_browserid);
   })
 
   //----------------------------------------------------------------------------------------

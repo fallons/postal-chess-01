@@ -4000,7 +4000,7 @@ function reply_other(target) {
 function touch_other() {
   //dlog('==> begin touch_other');
   console.log('==> touch other')
-  txMsg(myClientId,"001,touch_other,`${g_myrandomid}`");
+  txMsg(myClientId,"001,touch_other");
   //
   //
   //dlog('<== end touch_other');
@@ -4024,7 +4024,7 @@ function retouch_other(target) {
 function txMsg(clid, txMsg) {
 console.log('function txMsg called with message... ' +  'txMsg: ' + txMsg  + ' clid: ' + clid + ' test_item: ' + g_myrandomid + ' end');
 dlog('function txMsg called with message... ' + txMsg);
-socket.emit('new_message2c', {message : txMsg, clientid : clid, test_item : g_myrandomid})
+socket.emit('new_message2c', {message : txMsg, clientid : clid, unique_browserid: g_myrandomid})
 }
 
 function f001() {
