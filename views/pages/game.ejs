@@ -1190,14 +1190,7 @@ function setCookie(name,value,days) {
     document.cookie = name + "=" + (value || "")  + expires + "; path=/";
 }
 
-/*
-var cookie_exists = getCookie(chess_client)
-
-if (cookie_exists == "")
-
-
-
-function getCookie(chess_client) {
+function getCookie(name) {
     var nameEQ = name + "=";
     var ca = document.cookie.split(';');
     for(var i=0;i < ca.length;i++) {
@@ -1207,6 +1200,15 @@ function getCookie(chess_client) {
     }
     return null;
 }
+
+/*
+var cookie_exists = getCookie(chess_client)
+
+if (cookie_exists == "")
+
+
+
+
 function eraseCookie(name) {   
     document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
