@@ -1175,11 +1175,12 @@ console.log('*** g_myrandomid = ' + g_myrandomid);
 
 //setCookie('ppkcookie','testcookie',7);
 
-var x = getCookie('ppkcookie');
+var x = getCookie('chess_random');
 if (x) {
     console.log('cookis is: ' + x)
 }else{
-  console.log('no cookie found');
+  console.log('no cookie found so set one from g_myrandomid');
+  setCookie('chess_random',g_myrandomid)
 }
 
 function setCookie(name,value,days) {
