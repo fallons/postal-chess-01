@@ -37,7 +37,7 @@ ssl: {
 app.use(express.static(path.join(__dirname, 'public')))
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
-app.get('/', (req, res) => res.render('pages/index'))
+
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(cookieParser())
@@ -45,21 +45,41 @@ app.use(cors())
 //=================================================================================================
 // Routes
 //=================================================================================================
-  app.get('/cookietest', (req, res) => {
-    // read cookies
-    console.log('********* COOKIE TEST *************');
-    console.log('**** req cookies ****' + JSON.stringify(req.cookies));
-    console.log('**** req query **** ' + req.query.p1)  
+//  this is the / route 
+//=================================================================================================
+app.get('/', (req, res) => res.render('pages/index'))
+//=================================================================================================
+//  this is the /cookietest route 
+//=================================================================================================
+app.get('/cookietest', (req, res) => {
+  let randomid = makeid(5);
+  console.log(randomid)
+  // read cookies
+  console.log('********* COOKIE TEST *************');
+  console.log('**** req cookies ****' + JSON.stringify(req.cookies));
+  console.log('**** req query **** ' + req.query.p1)  
 
-    let options = {
-        maxAge: 1000 * 60 * 15 // would expire after 15 minutes
-        //httpOnly: true, // The cookie only accessible by the web server
-        //signed: true // Indicates if the cookie should be signed
+  let options = {
+      maxAge: 1000 * 60 * 15 // would expire after 15 minutes
+      //httpOnly: true, // The cookie only accessible by the web server
+      //signed: true // Indicates if the cookie should be signed
+  }
+
+  // Set cookie
+  res.cookie('cookieName', 'cookieValue', options) // options is optional
+  res.send('')
+
+  function makeid(length) {
+    let result = '';
+    const characters = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijklmnpqrstuvwxyz23456789';
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      counter += 1;
     }
-
-    // Set cookie
-    res.cookie('cookieName', 'cookieValue', options) // options is optional
-    res.send('')
+    return result;
+}
 })
 
 //=================================================================================================
