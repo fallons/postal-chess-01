@@ -4000,14 +4000,14 @@ function reply_other(target) {
 function touch_other() {
   //dlog('==> begin touch_other');
   console.log('==> touch other')
-  txMsg(myClientId,"001,touch_other");
+  txMsg(myClientId,"001,touch_other,`${g_myrandomid}`");
   //
   //
   //dlog('<== end touch_other');
   console.log('<== touch other')
   }
 //=================================================================================================
-function retouch_other(target) {
+function retouch_other() {
   dlog('==> begin retouch_other');
   txMsg(target,"001,retouch_other");
   //
