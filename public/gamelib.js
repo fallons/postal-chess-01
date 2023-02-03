@@ -4024,7 +4024,7 @@ function retouch_other(target) {
 function txMsg(clid, txMsg) {
 console.log('function txMsg called with message... ' +  'txMsg: ' + txMsg  + ' clid: ' + clid + ' end');
 dlog('function txMsg called with message... ' + txMsg);
-socket.emit('new_message2c', {message : txMsg, clientid : clid })
+socket.emit('new_message2c', {message : txMsg, clientid : clid, test_item : "testing_123"})
 }
 
 function f001() {
