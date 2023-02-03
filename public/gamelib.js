@@ -4021,15 +4021,10 @@ function retouch_other(target) {
 //=================================================================================================
 // diagnosic and testing functions start
 //=================================================================================================
-//==================================================================================================
-//03/02/2023 - changed to socket.broadcasr.emit so that only 'other' cliens get the message
-//
-//==================================================================================================
 function txMsg(clid, txMsg) {
 console.log('function txMsg called with message... ' +  'txMsg: ' + txMsg  + ' clid: ' + clid + ' end');
 dlog('function txMsg called with message... ' + txMsg);
-//socket.emit('new_message2c', {message : txMsg, clientid : clid })
-socket.broadcast.emit('new_message2c', {message : txMsg, clientid : clid })
+socket.emit('new_message2c', {message : txMsg, clientid : clid })
 }
 
 function f001() {
