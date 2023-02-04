@@ -60,7 +60,7 @@ app.get('/cookietest', (req, res) => {
   console.log('**** req query **** ' + req.query.p1)  
 
   let options = {
-      maxAge: 1000 * 60 * 15 // would expire after 15 minutes
+      maxAge: 1000 * 60 * 576000 // would expire after 400 days (576000 minutes)
       //httpOnly: true, // The cookie only accessible by the web server
       //signed: true // Indicates if the cookie should be signed
   }
