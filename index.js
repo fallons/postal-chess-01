@@ -66,7 +66,7 @@ app.get('/cookietest', (req, res) => {
   }
 
   // Set cookie
-  res.cookie('cookieName', 'cookieValue', options) // options is optional
+  res.cookie(playerid, randomid, options) // options is optional
   res.send('cookie test complete')
 
   function makeid(length) {
