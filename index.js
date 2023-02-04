@@ -425,8 +425,9 @@ async function writelog(log_tod,log_uname,log_bi,log_hi,log_gvars,log_ucolour) {
   app.get('/getcookies', async (req, res) => {
      // read cookies
    console.log('********* GET COOKIES *************');	
+   console.log('**** req cookies ****' + JSON.stringify(req.cookies));
 
-    res.send('get cookies sent this...'); 
+  res.send('get cookies sent this...'); 
   })  
 
   //====================================================================================================================
