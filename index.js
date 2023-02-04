@@ -427,7 +427,7 @@ async function writelog(log_tod,log_uname,log_bi,log_hi,log_gvars,log_ucolour) {
    console.log('********* GET COOKIES *************');	
    console.log('**** req cookies ****' + JSON.stringify(req.cookies));
    var player_cookie = req.cookies.playerid
-  res.send('get cookies sent this... ' + player_cookie); 
+  res.send('get cookies sent this... ' + 'playerid = ' + player_cookie); 
   })  
 
   //====================================================================================================================
