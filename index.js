@@ -2,7 +2,7 @@ console.log('*******************************************************************
 console.log('*      ========= secret-shore-85438 ========                                         *');
 console.log('*      ========= postgresql-perpendicular-72828 using connection string ========     *');       
 console.log('*                                                                                    *');
-console.log('*                                                    xx                                *');
+console.log('*                                                                                    *');
 console.log('**************************************************************************************');
 /*******/
 const express = require('express');
