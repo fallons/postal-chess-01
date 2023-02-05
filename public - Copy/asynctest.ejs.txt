@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<!-- ================================================================================== -->
+<!-- C:\Users\steve.DESKTOP-5BCU50T\git-repo-01\still-shelf-78251\views\pages\chess.ejs -->
+<!--   !!!             KEEP this sample code!!                                          -->
+<!--  it shows how to wait for the completion of  asyc action(s)                        -->
+<!--  such one or more server requuest from the client code                             -->
+<!--                                                                                    -->
+<!-- ================================================================================== -->
+
+<head>
+<title>Async Test</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+
+<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous">
+</script>
+
+<style>
+
+ul{
+    list-style-type:disc;
+    margin:0 0 0 2em;
+}
+li{
+    margin:0 0 .5em;
+}
+
+</style>	
+
+</head>
+
+<body>
+
+<ul></ul>
+
+<script>
+
+//var myrsget = rsGet('ravi');
+
+function msg(text){
+    $ul.append('<li>' + text + '</li>');
+}
+
+var $ul = $('ul');
+
+console.log('line 51 xxxxxxxxxxxxxxxxxxxxxxxxxxx' + Date.now());
+
+msg('line 53 aaaaaaaaaaaaaaaaaaaaaaaaa' + Date.now());
+
+$.when( rsGet('ravi') ).done(function(myrsvalue){
+    msg()
+    msg('line 56 all done! + Date.now()');
+    msg('line 57 ' + myrsvalue + Date.now());
+});
+
+console.log('line 60 yyyyyyyyyyyyyyyyyyyyyyy' + Date.now());
+
+msg('line 62 bbbbbbbbbbbbbbbbbbbbbbbb' + Date.now());
+
+//=========
+//alert(myrsget);
+
+/* utils */
+//var $ul = $('ul');
+
+//function msg(text){
+//    $ul.append('<li>' + text + '</li>');
+//}
+
+
+/* functions */
+/*
+function asyncThing1(){
+    var dfd = $.Deferred();
+    setTimeout(function(){
+        msg('asyncThing1 seems to be done...');
+        dfd.resolve('banana');
+    },1000);
+    return dfd.promise();
+}
+
+function asyncThing2(){
+    var dfd = $.Deferred();
+    setTimeout(function(){
+        msg('asyncThing2 seems to be done...');
+        dfd.resolve('apple');
+    },500);
+    return dfd.promise();
+}
+
+function asyncThing3(){
+    var dfd = $.Deferred();
+    setTimeout(function(){
+        msg('asyncThing3 seems to be done...');
+        dfd.resolve('orange');
+    },1500);
+    return dfd.promise();
+}
+*/
+
+function rsGet(rskey){
+
+    var dfd = $.Deferred();
+
+console.log('line 109 ***** /rsget route' + Date.now());
+
+var rsData = {rskey:rskey}; 
+
+$.ajax({
+url : "https://still-shelf-78251.herokuapp.com/rsget",
+type: "POST",
+data : rsData,
+success: function(data, textStatus, jqXHR) {
+  //msg('async db query seems to be done');
+  //msg('data from db = ' + data.rsvalue);
+  dfd.resolve(data.rsvalue);
+},
+error: function (jqXHR, textStatus, errorThrown) {
+ msg('line 123 error occured');
+}
+});
+return dfd.promise();
+}
+
+
+/* do it */
+
+//$.when( asyncThing1(), asyncThing2(), asyncThing3(), rsGet() ).done(function(res1, res2, res3, res4){
+//  msg('all done!');
+//  msg(res1 + ', ' + res2 + ', ' + res3);
+//});
+
+/*
+$.when( rsGet() ).done(function(res1){
+    msg('all done!');
+    msg(res1);
+});
+*/
+
+</script>
+   
+</body>
+
+</html>
+
+
