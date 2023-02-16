@@ -45,9 +45,96 @@ app.use(cors())
 //=================================================================================================
 // Routes
 //=================================================================================================
-//  this is the / route 
+// was //this is the / route 
+// was //app.get('/', (req, res) => res.render('pages/index'))
 //=================================================================================================
-app.get('/', (req, res) => res.render('pages/index'))
+//=================================================================================================
+//  this is the / route  NEW NEW 
+//=================================================================================================
+// when the app is opened we see if a cookie named 'playerid' was sent
+// if it was NOT we send one which will persist so next time we will skip the
+// writing of a new one
+//
+//=================================================================================================
+app.get('/', (req, res) => {
+  console.log('**** / route ****')
+  let randomid = makeid(5);
+  console.log('randomid = ' + randomid)
+  // read cookies
+  console.log('********* COOKIE TEST *************');
+  console.log('**** req cookies ****' + JSON.stringify(req.cookies));
+  console.log('**** req query **** ' + req.query.p1) 
+  
+  var pid_cookie = req.cookies.playerid
+
+  console.log(pid_cookie)
+
+  let options = {
+      maxAge: 1000 * 60 * 576000 // would expire after 400 days (576000 minutes)
+      //httpOnly: true, // The cookie only accessible by the web server
+      //signed: true // Indicates if the cookie should be signed
+  }
+
+  // Set cookie
+ 
+
+  function makeid(length) {
+    let result = '';
+    const characters = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijklmnpqrstuvwxyz23456789';
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      counter += 1;
+    }
+    return result;
+}
+if (!pid_cookie) {
+  console.log('no pid cookie sent from client so we send ' + randomid + ' one to client')
+  res.cookie('playerid', randomid, options) // options is optional
+} 
+  console.log('render index.ejs')
+  res.render('pages/index')
+  
+})
+
+// NEW NEW //
+
+//=================================================================================================
+//  this is the /cookietest route 
+//=================================================================================================
+app.get('/cookietest', (req, res) => {
+  let randomid = makeid(5);
+  console.log('randomid = ' + randomid)
+  // read cookies
+  console.log('********* COOKIE TEST *************');
+  console.log('**** req cookies ****' + JSON.stringify(req.cookies));
+  console.log('**** req query **** ' + req.query.p1)  
+
+  let options = {
+      maxAge: 1000 * 60 * 576000 // would expire after 400 days (576000 minutes)
+      //httpOnly: true, // The cookie only accessible by the web server
+      //signed: true // Indicates if the cookie should be signed
+  }
+
+  // Set cookie
+  res.cookie('playerid', randomid, options) // options is optional
+  res.send('cookie test complete')
+
+  function makeid(length) {
+    let result = '';
+    const characters = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijklmnpqrstuvwxyz23456789';
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      counter += 1;
+    }
+    return result;
+}
+})
+
+
 //=================================================================================================
 //  this is the /cookietest route 
 //=================================================================================================
