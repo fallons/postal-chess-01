@@ -1,3 +1,4 @@
+<!--
 <!DOCTYPE html>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -15,3 +16,448 @@
 <button onclick="reply_other()">Reply Other</button>
 </body>
 </html>
+
+-->
+
+<!DOCTYPE html>
+<!--
+This app checks that it has been invoked from 2 different browser instances - A and B.
+When instance A is started the user presses the 'Connect' button.
+This calls causes a connect.io message to be sent via the connect.io server with a unique 'key' to browser B
+If browser B is running, when the message arrives B will send an acknowledgement with B's own unique key..
+In turn A will send an acknowlegement.
+When either browser has recieved a message with a different 'key' an it knows that the 'other' is running
+and it sets a variable locally - 'allow-chess'
+This will make visible a button that calls the chess app url
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!--
+<script src="jslib.js"></script>
+<script src="gamelib.js"></script>
+-->
+<html>
+<head>
+    <title>Connect</title>
+<style>
+  .hide_me {
+    visibility: hidden;
+  }
+
+  .show_me {
+    visibility: visible;
+  }
+</style>    
+</head>
+
+<body>
+<p id="myplayerid">......</p>
+<p>gentle-caverns-38721</p>
+<p>file name: index.ejs</p>
+<p>Connect Landing Page</p>
+
+
+<p id="other_msg" style="color: red; font-size: larger; "></p>
+
+<!--
+<section id="chatroom">
+  <section id="feedback2c"></section>
+</section>
+-->
+
+<section id="chatroom">
+  <section id="feedback3c"></section>
+</section>
+
+<section>
+    <textarea name="clog" id="clog" placeholder="connect log..." class="vertical-align" cols="40" rows="15"></textarea>
+  </section>
+
+<button class="show_me" id="btn_connect" onclick="call_connect_me()">Connect</button>
+
+<button class="hide_me" id="btn_chess"   onclick="call_chess()">Chess</button>
+
+
+<script>
+
+
+
+"use strict"
+
+console.log('from gentle-caverns-38721 make socket.io connection to https://gentle-caverns-38721.herokuapp.com as "socket"');
+var socket = io.connect('https://gentle-caverns-38721.herokuapp.com');
+
+var g_testvar="mytestthing";
+var g_playerid = getCookie('playerid');
+var g_other_seen = 0;
+var g_connect_pressed = 0;
+
+document.getElementById('myplayerid').innerHTML = g_playerid;
+
+//=================================================================================================
+// clog() a utility to print daignostic information
+//=================================================================================================
+function clog(textToAppend) {
+  console.log('clog: ' + textToAppend);
+    var txa = textToAppend;
+    //
+    var x = document.getElementById("clog");
+    var t = document.createTextNode(textToAppend + '\n');
+    x.appendChild(t);
+    x.scrollTop = x.scrollHeight;
+    } 
+//=================================================================================================
+// clear_clog
+//=================================================================================================    
+    function clear_clog() {
+    var table = document.getElementById("clog");
+    table.innerHTML = "";
+    }
+
+//=================================================================================================
+// cMsg
+//=================================================================================================
+//function cMsg(g_playerid, cMsg) {
+//var playerid = g_playerid
+//console.log('function cMsg called with message... ' +  'cMsg: ' + cMsg  + ' playerid: ' + playerid + ' end');
+//clog('function cMsg called with message... ' + cMsg);
+//socket.emit('new_message2c', {message : cMsg, playerid : playerid})
+//}
+
+//=================================================================================================
+// cMsg
+//=================================================================================================
+function cMsg(g_playerid, cMsg) {
+var playerid = g_playerid
+console.log('function cMsg called with message... ' +  'cMsg: ' + cMsg  + ' playerid: ' + playerid + ' end');
+clog('function cMsg called with message... ' + cMsg);
+socket.emit('new_message3c', {message : cMsg, playerid : playerid})
+}
+//=================================================================================================
+// getCookie
+//=================================================================================================
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+
+//================================================================================================
+// unhide_chess
+//================================================================================================
+function unhide_chess() {
+  clog('unhide chess button')
+  var x = document.getElementById("btn_chess");
+   x.style.visibility = "visible";
+  }
+
+//================================================================================================
+// hide_connect
+//================================================================================================
+function hide_connect() {
+  clog('hide connect button')
+  var x = document.getElementById("btn_connect");
+   x.style.visibility = "hidden";
+  }  
+
+//================================================================================================
+// call_chess
+//================================================================================================
+function call_chess() {
+  if (!g_connect_pressed) {
+clog('you must press connect before chess')
+  }else{
+ clog('playerid ' + g_playerid + ' pressed Chess button')
+
+ // put in a way to put the chess page in the browser
+
+  }
+  }  
+//================================================================================================
+// call_connect_me
+//================================================================================================
+function call_connect_me() {
+ clog('playerid ' + g_playerid + ' pressed Connect button')
+ connect_me()
+  }  
+//================================================================================================
+// connect_me() -- send message -- 
+//
+// used by connect page
+// The purpose of this is to send a message to the other browser.
+// The other browser sends a 'reply' to the originator
+//
+//=================================================================================================
+function connect_me(playerid) {
+  g_connect_pressed = 1
+  clog('==> begin connect_me');
+  console.log('==> connect_me')
+  cMsg(playerid,`001,connect_pressed,${g_playerid}`);
+  //
+  //
+  clog('<== end connect_me');
+  console.log('<== connect_me')
+  //hide_connect();
+  }
+
+function reply_to_connect(playerid) {
+  //g_connect_pressed = 1
+  clog('==> begin reply_to_connect');
+  console.log('==> reply_to_connect')
+  cMsg(playerid,`001,reply_to_connect,${g_playerid}`);
+  //
+  //
+  clog('<== end reply_to_connect');
+  console.log('<== reply_to_connect')
+  //hide_connect();
+}  
+
+function tell_other_to_unhide_chess(playerid) {
+  console.log('==> tell_other_to_unhide_chess')
+  cMsg(playerid,`001,tell_other_to_unhide_chess,${g_playerid}`);
+  //
+  //
+  clog('<== end tell_other_to_unhide_chess');
+  console.log('<== tell_other_to_unhide_chess')
+
+}
+
+//socket.on("new_message2c", (data) => {
+//feedback2c.html('');
+//message2c.val('');
+//chatroom2c.append("<p class='message'>" + data.clientid + ": " + data.message + "</p>")
+//clog('174');
+////clog('client id: ' + data.clientid + ' sent message: ' + data.message);
+//messageHandler(data.message);
+//})  
+
+socket.on("new_message3c", (data) => {
+//feedback2c.html('');
+//message2c.val('');
+//chatroom2c.append("<p class='message'>" + data.clientid + ": " + data.message + "</p>")
+clog('174');
+clog('client id: ' + data.clientid + ' sent message: ' + data.message);
+messageHandler(data.message);
+}) 
+
+//=================================================================================================
+// function messageHandler(id,msg)
+// called from jslib.js ... 
+// socket.on("new_message2c", (data) => { 
+// messageHandler(data.clientid, data.message);
+//=================================================================================================
+function messageHandler(msg) {
+clog('message handler recieved: msg = ' + msg);
+// parse message
+if (msg===undefined) {
+  msg = "001,999,zzzzz";
+}
+var msgStr
+msgStr = msg;
+var msgArr = msgStr.split(',');
+var cmdCode = msgArr[0];
+var fCode = msgArr[1];
+var origin = msgArr[2];
+
+if (cmdCode == "001") {  // if cmdCode is '001' execute function per fCode
+
+if (origin == g_playerid) {  // message is from ourself
+
+clog('we got a message from ourself')
+
+// process message from ourself
+switch (fCode) {
+//
+case "000" :
+clog('msg from me');
+clog('case fCode = 000');
+clog('no action');
+break;
+//=================================================================================================
+case "999" :
+clear_clog('msg from me');
+clog('case fCode = 999');
+break;
+//=================================================================================================
+default:
+clog('msg from me');
+clog('fcode not 000');
+break
+//=================================================================================================
+}  // close switch
+
+}  // end 'processing message from ourself'
+
+if (origin != g_playerid) {  // message is from 'other'
+g_other_seen = 1;
+clog('we got a message from other so call unhide_chess');
+//unhide_chess();
+
+// process message from other
+switch (fCode) {
+//
+case "000" :
+clog('msg from other');
+clog('case fCode = 000');
+clear_clog('no action')
+break;
+//=================================================================================================
+case "001" :
+clog('msg from other');
+clog('case fCode = 001');
+f001();
+break;
+//=================================================================================================
+case "999" :
+clog('msg from other');
+clog('case fCode = 001');
+//f001();
+break;
+//=================================================================================================
+case "connect_pressed" :
+clog('msg from other');
+clog('case fCode = connect_pressed - by other- ');
+reply_to_connect()
+break;
+//=================================================================================================
+case "reply_to_connect" :
+clog('msg from other');
+clog('case fCode = reply_to_connect - by other- ');
+clog('we got a reply to our connect')
+unhide_chess();
+tell_other_to_unhide_chess()
+break;
+//=================================================================================================
+case "tell_other_to_unhide_chess" :
+clog('msg from other');
+clog('case fCode = tell_other_to_unhide_chess - by other- ');
+clog('other told us to unhide chess')
+unhide_chess();
+break;
+//=================================================================================================
+default:
+clog('msg from other');
+clog('fcode not 000');
+break
+//=================================================================================================
+}  // end switch (fCode) {
+
+}  // end if (idOrigin != myClientId) {  //  if 3 from 'other'
+
+}else{clog('cmdCode not 001')};
+
+}  // end function
+
+//=================================================================================================
+//                   end of socket message handler
+//================================================================================================= 
+
+
+//=================================================================================================
+// socket.io setup - self-invoked function
+//=================================================================================================
+$(function(){ 
+
+//console.log('from gentle-caverns-38721 make socket.io connection to https://gentle-caverns-38721.herokuapp.com as "socket"');
+//var socket = io.connect('https://gentle-caverns-38721.herokuapp.com');
+var clientid             = $("#clientid");
+var send_clientid        = $("#send_clientid")
+//var message2c            = $("#message2c")
+//var send_message2c       = $("#send_message2c")
+//var chatroom2c           = $("#chatroom2c")
+//var feedback2c           = $("#feedback2c")
+//
+var message3c            = $("#message3c")
+var send_message3c       = $("#send_message3c")
+var chatroom3c           = $("#chatroom3c")
+var feedback3c           = $("#feedback3c")
+
+//-----------------------------------------------------------------------------------------------
+// reminder to me of how all this works...!
+//
+// EMIT ON new_message2c socket
+// 
+// send_message_2c is the "id" of a button associated with the input field id="message2c" 
+// the .click jquery method invoves the following function which emits the message
+// using "new_message2c" - this is picked up by the server's code at around line 35 as follows...
+//  socket.on('new_message2c', (data) => {
+//   io.sockets.emit('new_message2c', {message : data.message, clientid : socket.clientid});
+//  })
+//
+// that server code broadcast to any connected client using io.sockets.emit
+// and our cliend code sees it with its code at line 212 below..
+// ... socket.on("new_message2c", (data) => { ...
+// which calls the messageHandler() function for decoding and processing
+//-----------------------------------------------------------------------------------------------
+// this is the 'transmit message' function that uses the user input field "message2c"
+// new_message2c is the SOCKET NAME and is arbitrary BUT MUST match the server SOCKET being used
+// -- possible later simplification would be to shorten these socket names perhaps to SK1 or similar
+// but at present leave as is.
+//-----------------------------------------------------------------------------------------------
+//send_message2c.click(function(){
+//socket.emit('new_message2c', {message : message2c.val()})
+//})
+
+send_message3c.click(function(){
+socket.emit('new_message2c', {message : message3c.val()})
+})
+//-----------------------------------------------------------------------------------------------
+// Listen on new_message2c socket
+//-----------------------------------------------------------------------------------------------
+//socket.on("new_message2c", (data) => {
+//feedback2c.html('');
+//message2c.val('');
+//chatroom2c.append("<p class='message'>" + data.clientid + ": " + data.message + "</p>")
+//clog('308');
+//clog('sent message: ' + data.message);
+//messageHandler(data.message);
+//})
+
+socket.on("new_message3c", (data) => {
+//feedback2c.html('');
+//message2c.val('');
+//chatroom2c.append("<p class='message'>" + data.clientid + ": " + data.message + "</p>")
+clog('308');
+clog('sent message: ' + data.message);
+messageHandler(data.message);
+})
+//-----------------------------------------------------------------------------------------------
+// Emit a clientid
+//-----------------------------------------------------------------------------------------------
+send_clientid.click(function(){
+document.getElementById("info_01").innerHTML = clientid.val()
+socket.emit('change_clientid', {clientid : clientid.val()} )
+var myclientid = clientid.val();
+lsSet("clientid", myclientid);
+clog('client id is ' + lsGet("clientid"))
+})
+//Emit typing
+//message2c.bind("keypress", () => {
+//socket.emit('typing')
+//})
+
+message3c.bind("keypress", () => {
+socket.emit('typing')
+})
+//Listen on typing ...
+//socket.on('typing', (data) => {
+//feedback2c.html("<p><i>" + data.clientid + " is typing a message..." + "</i></p>")
+//})
+
+socket.on('typing', (data) => {
+feedback3c.html("<p><i>" + data.clientid + " is typing a message..." + "</i></p>")
+})
+
+});
+
+</script>
+
+
+</body>
+</html>
+
