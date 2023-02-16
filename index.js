@@ -2,7 +2,7 @@ console.log('*******************************************************************
 console.log('*      ========= secret-shore-85438 ========                                         *');
 console.log('*      ========= postgresql-perpendicular-72828 using connection string ========     *');       
 console.log('*                                                                                    *');
-console.log('*                                                            YY                      *');
+console.log('*   THERE IS A WORKING VERSION ON THE DESKTOP OF CONTAINING FOLDER                   *');
 console.log('**************************************************************************************');
 /*******/
 const express = require('express');
