@@ -671,6 +671,10 @@ margin: 20px;
 .elhide {
   visibility: hidden;
 }
+
+.txtblue {
+  color: blue;
+
 </style>
 </head>
 <body>
@@ -723,6 +727,7 @@ oooooooooooooooooooo Welcome Screen oooooooooooooooooooooooooooooooooooooooooooo
 <br>
 <div id="container">
   <div id="selcolour">
+    <p id="showplayerid" class="txtblue">xxxxx</p>
     <p class="bigGreen">Select Colour</p>
     <select id="selector"></select>
     <p></p>
@@ -1174,6 +1179,16 @@ When the "Play Chess" button appears, press it to begin the game
 
 var g_myrandomid = makeid(5);
 console.log('*** g_myrandomid = ' + g_myrandomid);
+
+/*new*/
+var g_playerid = getCookie('playerid');
+document.getElementById("showplayerid").innerHTML = g_playerid;
+
+if (g_playerid) {
+    console.log('cookis is: ' + g_playerid)
+}else{
+  console.log('no playerid cookie found');
+/*new*/
 
 //setCookie('ppkcookie','testcookie',7);
 
