@@ -29,6 +29,9 @@ In turn A will send an acknowlegement.
 When either browser has recieved a message with a different 'key' an it knows that the 'other' is running
 and it sets a variable locally - 'allow-chess'
 This will make visible a button that calls the chess app url
+[19/02/2023] we use '3c' suffix for socketp.io so we can integrate with other clients
+without stepping on their suffixes, which are '2c' and blank
+
 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -52,18 +55,12 @@ This will make visible a button that calls the chess app url
 
 <body>
 <p id="myplayerid">......</p>
-<p>gentle-caverns-38721</p>
+<p>secret-shore-85438</p>
 <p>file name: index.ejs</p>
 <p>Connect Landing Page</p>
 
 
 <p id="other_msg" style="color: red; font-size: larger; "></p>
-
-<!--
-<section id="chatroom">
-  <section id="feedback2c"></section>
-</section>
--->
 
 <section id="chatroom">
   <section id="feedback3c"></section>
@@ -113,16 +110,6 @@ function clog(textToAppend) {
     var table = document.getElementById("clog");
     table.innerHTML = "";
     }
-
-//=================================================================================================
-// cMsg
-//=================================================================================================
-//function cMsg(g_playerid, cMsg) {
-//var playerid = g_playerid
-//console.log('function cMsg called with message... ' +  'cMsg: ' + cMsg  + ' playerid: ' + playerid + ' end');
-//clog('function cMsg called with message... ' + cMsg);
-//socket.emit('new_message2c', {message : cMsg, playerid : playerid})
-//}
 
 //=================================================================================================
 // cMsg
