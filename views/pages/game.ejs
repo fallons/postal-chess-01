@@ -1351,10 +1351,10 @@ document.getElementById(g_sh_arr[i]).src = img;
 //-----------------------------------------------------------------------------
   case "chessTab":
     
-  if (!g_logged_in) {
-    alert('Please Login')
-  return 
-  }
+  //if (!g_logged_in) {
+  //  alert('Please Login')
+  //return 
+  //}
 
   if (g_inhibit_play_button) {
     alert('Choose Other Colour');
@@ -1387,7 +1387,7 @@ document.getElementById(g_sh_arr[i]).src = img;
 //-----------------------------------------------------------------------------
   case "diagTab":
 
-alert('diagTab pressed')
+//alert('diagTab pressed')
 
   tabcontent = document.getElementsByClassName("tabcontent");
   for (i = 0; i < tabcontent.length; i++) {
@@ -1403,7 +1403,7 @@ alert('diagTab pressed')
 //-----------------------------------------------------------------------------
 case "infoTab":
 
-alert('infoTab pressed')
+//alert('infoTab pressed')
 
   tabcontent = document.getElementsByClassName("tabcontent");
   for (i = 0; i < tabcontent.length; i++) {
