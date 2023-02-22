@@ -93,9 +93,11 @@ if (!pid_cookie) {
   console.log('no pid cookie sent from client so we send ' + randomid + ' one to client')
   res.cookie('playerid', randomid, options) // options is optional
 } 
+  //console.log('render index.ejs')
+  //res.render('pages/index')
+  // CHANGE 22/02/23 
   console.log('render index.ejs')
-  res.render('pages/index')
-  
+  res.render('pages/chess')
 })
 
 // NEW NEW //
