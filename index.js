@@ -109,7 +109,7 @@ if (!pid_cookie) {
 // this is the /chess route NO CHANGES NEEDED TO INTEGRATE GENTLE CAVERNS
 //=================================================================================================
 app.get('/chess', async (req, res) => {
-  console.log('/ route');
+  console.log('/chess route');
   const client = await pool.connect();
   //-------------------------------------------------------------------------------------
   text = 'SELECT * FROM table01 WHERE id = $1'
