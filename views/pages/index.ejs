@@ -216,30 +216,13 @@ function tell_other_to_unhide_chess(playerid) {
 
 }
 
-//socket.on("new_message2c", (data) => {
-//feedback2c.html('');
-//message2c.val('');
-//chatroom2c.append("<p class='message'>" + data.clientid + ": " + data.message + "</p>")
-//clog('174');
-////clog('client id: ' + data.clientid + ' sent message: ' + data.message);
-//messageHandler(data.message);
-//})  
 
 socket.on("new_message3c", (data) => {
-//feedback2c.html('');
-//message2c.val('');
-//chatroom2c.append("<p class='message'>" + data.clientid + ": " + data.message + "</p>")
 clog('174');
 clog('client id: ' + data.clientid + ' sent message: ' + data.message);
 messageHandler(data.message);
 }) 
 
-//=================================================================================================
-// function messageHandler(id,msg)
-// called from jslib.js ... 
-// socket.on("new_message2c", (data) => { 
-// messageHandler(data.clientid, data.message);
-//=================================================================================================
 function messageHandler(msg) {
 clog('message handler recieved: msg = ' + msg);
 // parse message
@@ -363,13 +346,11 @@ var feedback3c           = $("#feedback3c")
 
 
 send_message3c.click(function(){
-socket.emit('new_message2c', {message : message3c.val()})
+socket.emit('new_message3c', {message : message3c.val()})
 })
 
 socket.on("new_message3c", (data) => {
-//feedback2c.html('');
-//message2c.val('');
-//chatroom2c.append("<p class='message'>" + data.clientid + ": " + data.message + "</p>")
+
 clog('308');
 clog('sent message: ' + data.message);
 messageHandler(data.message);
