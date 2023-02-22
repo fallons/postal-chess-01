@@ -96,8 +96,9 @@ if (!pid_cookie) {
   //console.log('render index.ejs')
   //res.render('pages/index')
   // CHANGE 22/02/23 
-  console.log('render index.ejs')
-  res.render('pages/chess')
+
+  console.log('render game.ejs')
+  res.render('pages/game')
 })
 
 // NEW NEW //
