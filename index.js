@@ -1092,15 +1092,6 @@ console.log('>>>>  server pure-basin-37825 received socket.on "new_message" ' + 
 console.log('********** new_message ' + data.message);
 })
 
-//------------------------------------------------------------------------------------------------
-// working version
-//------------------------------------------------------------------------------------------------
-//socket.on('new_message2c', (data) => {
-//io.sockets.emit('new_message2c', {message : data.message, clientid : socket.clientid});
-//console.log('********** new_message2c ' + data.message + " ; " + "clientid >>> " + data.clientid);
-//})
-//------------------------------------------------------------------------------------------------
-
 socket.on('new_message2c', (data) => {
   io.sockets.emit('new_message2c', {message : data.message, clientid : socket.clientid});
   console.log('*test new_message2c ' + data.message + " ; " + "clientid " + data.clientid + " ; " + "unique_browserid " + data.unique_browserid);
@@ -1121,7 +1112,6 @@ console.log('BROADCAST EMIT ********** typing ' + socket.username)
 
 socket.on('disconnect', function(){
   console.log('disconnect event from clientid ' + socket.clientid);
-  //socket.broadcast.emit('user_leave', {username: "johnjoe123"});
 });
 
 })
