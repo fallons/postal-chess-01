@@ -81,8 +81,8 @@ without stepping on their suffixes, which are '2c' and blank
 
 "use strict"
 
-console.log('from gentle-caverns-38721 make socket.io connection to https://gentle-caverns-38721.herokuapp.com as "socket"');
-var socket = io.connect('https://gentle-caverns-38721.herokuapp.com');
+console.log('from secret-shore-854381 make socket.io connection to https://secret-shore-85438.herokuapp.com as "socket"');
+var socket = io.connect('https://secret-shore-85438.herokuapp.com');
 
 var g_testvar="mytestthing";
 var g_playerid = getCookie('playerid');
@@ -352,60 +352,16 @@ break
 //=================================================================================================
 $(function(){ 
 
-//console.log('from gentle-caverns-38721 make socket.io connection to https://gentle-caverns-38721.herokuapp.com as "socket"');
-//var socket = io.connect('https://gentle-caverns-38721.herokuapp.com');
 var clientid             = $("#clientid");
 var send_clientid        = $("#send_clientid")
-//var message2c            = $("#message2c")
-//var send_message2c       = $("#send_message2c")
-//var chatroom2c           = $("#chatroom2c")
-//var feedback2c           = $("#feedback2c")
-//
 var message3c            = $("#message3c")
 var send_message3c       = $("#send_message3c")
 var chatroom3c           = $("#chatroom3c")
 var feedback3c           = $("#feedback3c")
 
-//-----------------------------------------------------------------------------------------------
-// reminder to me of how all this works...!
-//
-// EMIT ON new_message2c socket
-// 
-// send_message_2c is the "id" of a button associated with the input field id="message2c" 
-// the .click jquery method invoves the following function which emits the message
-// using "new_message2c" - this is picked up by the server's code at around line 35 as follows...
-//  socket.on('new_message2c', (data) => {
-//   io.sockets.emit('new_message2c', {message : data.message, clientid : socket.clientid});
-//  })
-//
-// that server code broadcast to any connected client using io.sockets.emit
-// and our cliend code sees it with its code at line 212 below..
-// ... socket.on("new_message2c", (data) => { ...
-// which calls the messageHandler() function for decoding and processing
-//-----------------------------------------------------------------------------------------------
-// this is the 'transmit message' function that uses the user input field "message2c"
-// new_message2c is the SOCKET NAME and is arbitrary BUT MUST match the server SOCKET being used
-// -- possible later simplification would be to shorten these socket names perhaps to SK1 or similar
-// but at present leave as is.
-//-----------------------------------------------------------------------------------------------
-//send_message2c.click(function(){
-//socket.emit('new_message2c', {message : message2c.val()})
-//})
-
 send_message3c.click(function(){
 socket.emit('new_message2c', {message : message3c.val()})
 })
-//-----------------------------------------------------------------------------------------------
-// Listen on new_message2c socket
-//-----------------------------------------------------------------------------------------------
-//socket.on("new_message2c", (data) => {
-//feedback2c.html('');
-//message2c.val('');
-//chatroom2c.append("<p class='message'>" + data.clientid + ": " + data.message + "</p>")
-//clog('308');
-//clog('sent message: ' + data.message);
-//messageHandler(data.message);
-//})
 
 socket.on("new_message3c", (data) => {
 //feedback2c.html('');
@@ -425,18 +381,10 @@ var myclientid = clientid.val();
 lsSet("clientid", myclientid);
 clog('client id is ' + lsGet("clientid"))
 })
-//Emit typing
-//message2c.bind("keypress", () => {
-//socket.emit('typing')
-//})
 
 message3c.bind("keypress", () => {
 socket.emit('typing')
 })
-//Listen on typing ...
-//socket.on('typing', (data) => {
-//feedback2c.html("<p><i>" + data.clientid + " is typing a message..." + "</i></p>")
-//})
 
 socket.on('typing', (data) => {
 feedback3c.html("<p><i>" + data.clientid + " is typing a message..." + "</i></p>")
