@@ -671,6 +671,10 @@ margin: 20px;
 .elhide {
   visibility: hidden;
 }
+
+.txtblue {
+  color: blue;
+}
 </style>
 </head>
 <body>
@@ -690,10 +694,10 @@ margin: 20px;
 <!-- oooooooooooooooooooooooooooooo modified this on 21/10/2021    ooooooooooooooooooooooooooo --> 
 <!-- ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo --> 
 <div id="tabstrip" class="tab">
-  <button style="font-size:smaller;" class="tablinks" onclick="openTab(event, 'chessTab')">o</button>
-  <button style="font-size:smaller;" class="tablinks" onclick="openTab(event, 'infoTab')">o</button>
-  <button style="font-size:smaller;" class="tablinks" onclick="openTab(event, 'diagTab')">o</button>
-  <!--<button class="tablinks" onclick="openTab(event, 'homeTab')">H</button>-->
+  <button style="font-size:smaller;" class="tablinks" onclick="openTab(event, 'chessTab')">Chess</button>
+  <button style="font-size:smaller;" class="tablinks" onclick="openTab(event, 'infoTab')">Info</button>
+  <button style="font-size:smaller;" class="tablinks" onclick="openTab(event, 'diagTab')">Diag</button>
+  <button style="font-size:smaller;" class="tablinks" onclick="openTab(event, 'homeTab')">Home</button>
 </div> 
 
 <!--
@@ -717,12 +721,15 @@ oooooooooooooooooooo Welcome Screen oooooooooooooooooooooooooooooooooooooooooooo
 oooooooooooooooooooo Welcome Screen ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo                                                                                             
 -->
 <!-- ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->  
-<!-- oooooooooooooooooooooooooooooo WELCOME TAB     oooooooooooooooooooooooooooooooooooooooooo --> 
+<!-- oooooooooooooooooooooooooooooo WELCOME TAB START   oooooooooooooooooooooooooooooooooooooooooo --> 
 <!-- ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
-<!--<div id="homeTab" class="tabcontent" style="line-height: 10px;">-->
+<!--   test with and without the plowing <div> and its </div>  at WELCOME TAB END             -->
+<div id="homeTab" class="tabcontent" style="line-height: 10px;">
+<!--                             -->
 <br>
 <div id="container">
   <div id="selcolour">
+    <p id="showplayerid" class="txtblue">xxxxx</p>
     <p class="bigGreen">Select Colour</p>
     <select id="selector"></select>
     <p></p>
@@ -772,7 +779,7 @@ When the "Play Chess" button appears, press it to begin the game
   </div> <!-- end change_username -->
 </div> <!-- welcome -->
 
-<!--</div> <!--  end "homeTab" -->
+</div> <!--  end "homeTab" - to match opening <div>  at WELCOME TAB START above -->
 
 <!-- ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->  
 <!-- oooooooooooooooooooooooooooooo WELCOME TAB END oooooooooooooooooooooooooooooooooooooooooo --> 
@@ -1159,6 +1166,8 @@ When the "Play Chess" button appears, press it to begin the game
 
 <div id="infoTab" class="tabcontent" style="line-height: 40px;">
 
+  <p>XXXXXXXXXXXXXXXXXXXXXXXXXXX</p>
+  
   <br><br><br>
 
 <button style="background-color: Chartreuse;" onclick="clickmybutton()">test click my button</button>
@@ -1174,6 +1183,17 @@ When the "Play Chess" button appears, press it to begin the game
 
 var g_myrandomid = makeid(5);
 console.log('*** g_myrandomid = ' + g_myrandomid);
+
+/*new*/
+var g_playerid = getCookie('playerid');
+document.getElementById("showplayerid").innerHTML = g_playerid;
+
+if (g_playerid) {
+    console.log('cookis is: ' + g_playerid)
+}else{
+  console.log('no playerid cookie found');
+}
+/*new*/
 
 //setCookie('ppkcookie','testcookie',7);
 
@@ -1333,13 +1353,13 @@ document.getElementById(g_sh_arr[i]).src = img;
 //-----------------------------------------------------------------------------
   case "chessTab":
     
-  if (!g_logged_in) {
-    alert('Please Login')
-  return 
-  }
+  //if (!g_logged_in) {
+  //  alert('Please Login')
+  //return 
+  //}
 
   if (g_inhibit_play_button) {
-    alert('Choose Other Colour');
+    //alert('Choose Other Colour');
     g_inhibit_play_button = false;
     console.log('g_inhibit_play_button ' + g_inhibit_play_button);
   return 
@@ -1368,6 +1388,9 @@ document.getElementById(g_sh_arr[i]).src = img;
   break;
 //-----------------------------------------------------------------------------
   case "diagTab":
+
+//alert('diagTab pressed')
+
   tabcontent = document.getElementsByClassName("tabcontent");
   for (i = 0; i < tabcontent.length; i++) {
     tabcontent[i].style.display = "none";
@@ -1381,6 +1404,9 @@ document.getElementById(g_sh_arr[i]).src = img;
   break;
 //-----------------------------------------------------------------------------
 case "infoTab":
+
+//alert('infoTab pressed')
+
   tabcontent = document.getElementsByClassName("tabcontent");
   for (i = 0; i < tabcontent.length; i++) {
     tabcontent[i].style.display = "none";
@@ -1394,7 +1420,6 @@ case "infoTab":
   break;
   //---------------------------------------------------------------------------
   //-----------------------------------------------------------------------------
-  /*
 case "homeTab":
   tabcontent = document.getElementsByClassName("tabcontent");
   for (i = 0; i < tabcontent.length; i++) {
@@ -1407,7 +1432,6 @@ case "homeTab":
   document.getElementById(tabName).style.display = "block";
   evt.currentTarget.className += " active";
   break;
-  */
   //---------------------------------------------------------------------------
   default:
   dlog('case not matched');

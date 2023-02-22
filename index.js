@@ -2,7 +2,7 @@ console.log('*******************************************************************
 console.log('*      ========= gentle-caverns-38721 ========                                       *');
 console.log('*      ========= postgresql-perpendicular-72828 using connection string ========     *');       
 console.log('*                                                                                    *');
-console.log('*                                                    xx        YY                    *');
+console.log('*                                                    xx        YY                   *');
 console.log('**************************************************************************************');
 /*******/
 const express = require('express');
@@ -45,19 +45,29 @@ app.use(cors())
 //=================================================================================================
 // Routes
 //=================================================================================================
-//  this is the / route 
+// was //this is the / route 
+// was //app.get('/', (req, res) => res.render('pages/index'))
 //=================================================================================================
-app.get('/', (req, res) => res.render('pages/index'))
 //=================================================================================================
-//  this is the /cookietest route 
+//  this is the / route  NEW NEW 
 //=================================================================================================
-app.get('/cookietest', (req, res) => {
+// when the app is opened we see if a cookie named 'playerid' was sent
+// if it was NOT we send one which will persist so next time we will skip the
+// writing of a new one
+//
+//=================================================================================================
+app.get('/', (req, res) => {
+  console.log('**** / route ****')
   let randomid = makeid(5);
   console.log('randomid = ' + randomid)
   // read cookies
   console.log('********* COOKIE TEST *************');
   console.log('**** req cookies ****' + JSON.stringify(req.cookies));
-  console.log('**** req query **** ' + req.query.p1)  
+  console.log('**** req query **** ' + req.query.p1) 
+  
+  var pid_cookie = req.cookies.playerid
+
+  console.log(pid_cookie)
 
   let options = {
       maxAge: 1000 * 60 * 576000 // would expire after 400 days (576000 minutes)
@@ -66,8 +76,7 @@ app.get('/cookietest', (req, res) => {
   }
 
   // Set cookie
-  res.cookie('playerid', randomid, options) // options is optional
-  res.send('cookie test complete')
+ 
 
   function makeid(length) {
     let result = '';
@@ -80,13 +89,27 @@ app.get('/cookietest', (req, res) => {
     }
     return result;
 }
+if (!pid_cookie) {
+  console.log('no pid cookie sent from client so we send ' + randomid + ' one to client')
+  res.cookie('playerid', randomid, options) // options is optional
+} 
+  console.log('render index.ejs')
+  res.render('pages/index')
+  
+
 })
 
+// NEW NEW //
+
+
+
+
+
 //=================================================================================================
-// this is the /chess route 
+// this is the /chess route NO CHANGES NEEDED TO INTEGRATE GENTLE CAVERNS
 //=================================================================================================
 app.get('/chess', async (req, res) => {
-  console.log('/ route');
+  console.log('/chess route');
   const client = await pool.connect();
   //-------------------------------------------------------------------------------------
   text = 'SELECT * FROM table01 WHERE id = $1'
@@ -106,7 +129,7 @@ app.get('/chess', async (req, res) => {
   }
 })
 //=================================================================================================
-// this is the /api route 
+// this is the /api route NO CHANGES NEEDED TO INTEGRATE GENTLE CAVERNS
 //=================================================================================================
 app.get('/api', (req, res) => {
   console.log('***** .all/api route -*****');
@@ -114,7 +137,7 @@ app.get('/api', (req, res) => {
   res.end;
 })
 //=================================================================================================
-// this is the /api route 
+// this is the /apiworking route NO CHANGES NEEDED TO INTEGRATE GENTLE CAVERNS
 //=================================================================================================
 app.get('/apiworking', (req, res) => {
   console.log('***** .all/api route -*****');
@@ -122,8 +145,9 @@ app.get('/apiworking', (req, res) => {
   res.end;
 })
 
- //====================================================================================================================
-
+//===================================================================================================
+// /testpost' route NO CHANGES NEEDED TO INTEGRATE GENTLE CAVERN
+//===================================================================================================
  app.post('/testpost', async (req, res) => {
 
   console.log('++++++++++++++++++++++++++++++>oOOOo<+++++++++++++++++++++++++++++++++++++++++++++');
@@ -187,7 +211,7 @@ app.get('/apiworking', (req, res) => {
 //====================================================================================================================
 
 //===================================================================================================================
-//  /dbread to read row id=1 for the board index
+//  /dbread to read row id=1 for the board index NO CHANGES NEEDED TO INTEGRATE GENTLE CAVERN
 //===================================================================================================================
 app.post('/dbread', async (req, res) => {
   console.log('/dbread entered');
@@ -246,7 +270,7 @@ app.post('/dbread', async (req, res) => {
 
 //=================================================================================================
 //  .post('/updbim')
-//  this will modify an existing row
+//  this will modify an existing row NO CHANGES NEEDED TO INTEGRATE GENTLE CAVERN
 //=================================================================================================
 app.post('/updbim', async (req, res) => {
   try {
@@ -292,7 +316,7 @@ app.post('/updbim', async (req, res) => {
   })
 
 //===================================================================================================================
-// /chat
+// /chat NO CHANGES NEEDED TO INTEGRATE GENTLE CAVERN
 //===================================================================================================================
 // here is where we come in with /chat request
 app.get('/chat', (req, res) => {
@@ -302,7 +326,7 @@ app.get('/chat', (req, res) => {
   })
 
 //===================================================================================================================
-// /brchat
+// /brchat NO CHANGES NEEDED TO INTEGRATE GENTLE CAVERN
 //===================================================================================================================
 // here is where we come in with /brchat request
 app.get('/brchat', (req, res) => {
@@ -316,6 +340,7 @@ app.get('/brchat', (req, res) => {
 // ROUTE POST /writelog ... call function  writelog() - log each move when user presses save
 // DELETE FROM logtable WHERE id>0;
 // SELECT setval('usertable_1_id_seq', 1);
+// NO CHANGES NEEDED TO INTEGRATE GENTLE CAVERN
 //========================================================================================================================================  
 app.post('/writelog', async (req, res) => {
   console.log('==> /writelog');
@@ -350,7 +375,7 @@ app.post('/writelog', async (req, res) => {
 //=======================================================================================================
 
 //=================================================================================================
-// writelog()  ...  insert a new row for each move - 6 columns
+// writelog()  ...  insert a new row for each move - 6 columns NO CHANGES NEEDED TO INTEGRATE GENTLE CAVERN
 //=================================================================================================
 async function writelog(log_tod,log_uname,log_bi,log_hi,log_gvars,log_ucolour) {
   console.log('==> writelog()')
@@ -407,7 +432,7 @@ async function writelog(log_tod,log_uname,log_bi,log_hi,log_gvars,log_ucolour) {
   }
   //====================================================================================================================
   //  .get('/writeLogDelimiter')
-  //  put a line in the server log
+  //  put a line in the server log NO CHANGES NEEDED TO INTEGRATE GENTLE CAVERN
   //====================================================================================================================
   app.get('/writelogdelimiter', async (req, res) => {
     console.log('+++---+++---+++---+++---+++--->oOOOo<+++---+++---+++---+++---+++---+++---+++---+++');
@@ -420,7 +445,7 @@ async function writelog(log_tod,log_uname,log_bi,log_hi,log_gvars,log_ucolour) {
 
   //====================================================================================================================
   //  .get('/getcookies')
-  //  
+  //  NO CHANGES NEEDED TO INTEGRATE GENTLE CAVERN
   //====================================================================================================================
   app.get('/getcookies', async (req, res) => {
      // read cookies
@@ -432,7 +457,7 @@ async function writelog(log_tod,log_uname,log_bi,log_hi,log_gvars,log_ucolour) {
 
   //====================================================================================================================
   //  .post('/login')
-  //  
+  //  NO CHANGES NEEDED TO INTEGRATE GENTLE CAVERN
   //====================================================================================================================
   app.post('/login', async (req, res) => {
     // login
@@ -446,7 +471,8 @@ async function writelog(log_tod,log_uname,log_bi,log_hi,log_gvars,log_ucolour) {
 //=================================================================================================================
 // *** parameterised query code is based on https://node-postgres.com/features/queries
 //=================================================================================================================
-
+// NO CHANGES NEEDED TO INTEGRATE GENTLE CAVERN
+//
 app.post('/dbquerytest', async (req, res) => {
   console.log('***** /dbquerytest route *****');
   //======== connect to data base ===========
@@ -532,7 +558,7 @@ app.post('/dbquerytest', async (req, res) => {
 //=========================================================================
 // *** parameterised query code is based on https://node-postgres.com/features/queries
 //=================================================================================================================
-
+// NO CHANGES NEEDED TO INTEGRATE GENTLE CAVERN //
 app.post('/dbquery', async (req, res) => {
   console.log('***** /dbquery route *****');
   //======== connect to data base =================================================================================
@@ -900,6 +926,8 @@ app.post('/dbquery', async (req, res) => {
 // .get('/dbselectall') loads the page app/views/pages/index.ejs from server at:
 //          ... url 'https://still-shelf-78251.herokuapp.com'
 //=================================================================================================
+//NO CHANGES NEEDED TO INTEGRATE GENTLE CAVERN
+//
 app.get('/dbselectall', async (req, res) => {
   try {
   console.log('*** dbselectall route **')
@@ -929,6 +957,7 @@ app.get('/dbselectall', async (req, res) => {
 // if the user clicks on select single row we get a request with the 'row_id' we want the db query to use
 // in the SELECT * from chess2 WHERE id = the row_id we recieved form the client
 //===================================================================================================================
+//NO CHANGES NEEDED TO INTEGRATE GENTLE CAVERN//
 app.post('/dbselsingle', async (req, res) => {
   console.log(' *** 1');
   //var strJSON = "";
@@ -1064,15 +1093,6 @@ console.log('>>>>  server pure-basin-37825 received socket.on "new_message" ' + 
 console.log('********** new_message ' + data.message);
 })
 
-//------------------------------------------------------------------------------------------------
-// working version
-//------------------------------------------------------------------------------------------------
-//socket.on('new_message2c', (data) => {
-//io.sockets.emit('new_message2c', {message : data.message, clientid : socket.clientid});
-//console.log('********** new_message2c ' + data.message + " ; " + "clientid >>> " + data.clientid);
-//})
-//------------------------------------------------------------------------------------------------
-
 socket.on('new_message2c', (data) => {
   io.sockets.emit('new_message2c', {message : data.message, clientid : socket.clientid});
   console.log('*test new_message2c ' + data.message + " ; " + "clientid " + data.clientid + " ; " + "unique_browserid " + data.unique_browserid);
@@ -1093,9 +1113,78 @@ console.log('BROADCAST EMIT ********** typing ' + socket.username)
 
 socket.on('disconnect', function(){
   console.log('disconnect event from clientid ' + socket.clientid);
-  //socket.broadcast.emit('user_leave', {username: "johnjoe123"});
 });
 
 })
+/*
 //=================================================================================================
+//  this is the /cookietest route NO CHANGES NEEDED TO INTEGRATE GENTLE CAVERNS
+//=================================================================================================
+app.get('/cookietest', (req, res) => {
+  let randomid = makeid(5);
+  console.log('randomid = ' + randomid)
+  // read cookies
+  console.log('********* COOKIE TEST *************');
+  console.log('**** req cookies ****' + JSON.stringify(req.cookies));
+  console.log('**** req query **** ' + req.query.p1)  
 
+  let options = {
+      maxAge: 1000 * 60 * 576000 // would expire after 400 days (576000 minutes)
+      //httpOnly: true, // The cookie only accessible by the web server
+      //signed: true // Indicates if the cookie should be signed
+  }
+
+  // Set cookie
+  res.cookie('playerid', randomid, options) // options is optional
+  res.send('cookie test complete')
+
+  function makeid(length) {
+    let result = '';
+    const characters = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijklmnpqrstuvwxyz23456789';
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      counter += 1;
+    }
+    return result;
+}
+})
+//=================================================================================================
+*/
+/*
+//=================================================================================================
+//  this is the /cookietest route 
+//=================================================================================================
+app.get('/cookietest', (req, res) => {
+  let randomid = makeid(5);
+  console.log('randomid = ' + randomid)
+  // read cookies
+  console.log('********* COOKIE TEST *************');
+  console.log('**** req cookies ****' + JSON.stringify(req.cookies));
+  console.log('**** req query **** ' + req.query.p1)  
+
+  let options = {
+      maxAge: 1000 * 60 * 576000 // would expire after 400 days (576000 minutes)
+      //httpOnly: true, // The cookie only accessible by the web server
+      //signed: true // Indicates if the cookie should be signed
+  }
+
+  // Set cookie
+  res.cookie('playerid', randomid, options) // options is optional
+  res.send('cookie test complete')
+
+  function makeid(length) {
+    let result = '';
+    const characters = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijklmnpqrstuvwxyz23456789';
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      counter += 1;
+    }
+    return result;
+}
+})
+
+*/
