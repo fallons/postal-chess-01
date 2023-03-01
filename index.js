@@ -1051,7 +1051,7 @@ const io = require("socket.io")(server)
 
 //listen on every connection
 io.on('connection', (socket) => {
-console.log('New browser connected to gentle-caverns-38721 socket.io server');
+console.log('New browser connected to gentle-caverns-38721 socket.io server XXX');
 console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXYY');
 
 //set default username
