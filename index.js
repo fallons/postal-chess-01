@@ -56,7 +56,7 @@ app.use(cors())
 // writing of a new one
 //
 //=================================================================================================
-app.get('/xx', (req, res) => {
+app.get('/', (req, res) => {
   console.log('**** / route ****')
   let randomid = makeid(5);
   console.log('randomid = ' + randomid)
@@ -108,7 +108,7 @@ if (!pid_cookie) {
 //=================================================================================================
 // this is the /chess route NO CHANGES NEEDED TO INTEGRATE GENTLE CAVERNS
 //=================================================================================================
-app.get('/', async (req, res) => {
+app.get('/chess', async (req, res) => {
   console.log('/chess route');
   const client = await pool.connect();
   //-------------------------------------------------------------------------------------
