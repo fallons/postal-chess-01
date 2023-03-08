@@ -1,8 +1,8 @@
 console.log('**************************************************************************************');
-console.log('*      ========= secret-shore-85438 ========                                       *');
+console.log('*      ========= secret-shore-85438 ========                                         *');
 console.log('*      ========= postgresql-perpendicular-72828 using connection string ========     *');       
-console.log('*                                                                                    *');
-console.log('*                                                    xx        YY                   *');
+console.log('*      ==== USES table01 =====                                                       *');
+console.log('*                                                    xx        YY                    *');
 console.log('**************************************************************************************');
 /*******/
 const express = require('express');
