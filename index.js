@@ -1051,8 +1051,8 @@ const io = require("socket.io")(server)
 
 //listen on every connection
 io.on('connection', (socket) => {
-console.log('New browser connected to gentle-caverns-38721 socket.io server XXX');
-console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXYYZZ');
+console.log('New browser connected to secret-shore-85438 socket.io server XXX');
+console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXYYAA');
 
 //set default username
 socket.username = "Anonymous"
@@ -1116,75 +1116,4 @@ socket.on('disconnect', function(){
 });
 
 })
-/*
-//=================================================================================================
-//  this is the /cookietest route NO CHANGES NEEDED TO INTEGRATE GENTLE CAVERNS
-//=================================================================================================
-app.get('/cookietest', (req, res) => {
-  let randomid = makeid(5);
-  console.log('randomid = ' + randomid)
-  // read cookies
-  console.log('********* COOKIE TEST *************');
-  console.log('**** req cookies ****' + JSON.stringify(req.cookies));
-  console.log('**** req query **** ' + req.query.p1)  
 
-  let options = {
-      maxAge: 1000 * 60 * 576000 // would expire after 400 days (576000 minutes)
-      //httpOnly: true, // The cookie only accessible by the web server
-      //signed: true // Indicates if the cookie should be signed
-  }
-
-  // Set cookie
-  res.cookie('playerid', randomid, options) // options is optional
-  res.send('cookie test complete')
-
-  function makeid(length) {
-    let result = '';
-    const characters = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijklmnpqrstuvwxyz23456789';
-    const charactersLength = characters.length;
-    let counter = 0;
-    while (counter < length) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      counter += 1;
-    }
-    return result;
-}
-})
-//=================================================================================================
-*/
-/*
-//=================================================================================================
-//  this is the /cookietest route 
-//=================================================================================================
-app.get('/cookietest', (req, res) => {
-  let randomid = makeid(5);
-  console.log('randomid = ' + randomid)
-  // read cookies
-  console.log('********* COOKIE TEST *************');
-  console.log('**** req cookies ****' + JSON.stringify(req.cookies));
-  console.log('**** req query **** ' + req.query.p1)  
-
-  let options = {
-      maxAge: 1000 * 60 * 576000 // would expire after 400 days (576000 minutes)
-      //httpOnly: true, // The cookie only accessible by the web server
-      //signed: true // Indicates if the cookie should be signed
-  }
-
-  // Set cookie
-  res.cookie('playerid', randomid, options) // options is optional
-  res.send('cookie test complete')
-
-  function makeid(length) {
-    let result = '';
-    const characters = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijklmnpqrstuvwxyz23456789';
-    const charactersLength = characters.length;
-    let counter = 0;
-    while (counter < length) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      counter += 1;
-    }
-    return result;
-}
-})
-
-*/
