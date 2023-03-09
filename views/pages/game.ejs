@@ -712,6 +712,7 @@ When the "Play Chess" button appears, press it to begin the game
   </div> <!-- end selcolour -->
 </div> <!-- end container -->
 
+<!--
 <div id="welcome">
   <p></p>
   <p class=piohide id="welcome_msg_1" class="bigGreen">Welcome: </p>
@@ -723,8 +724,11 @@ When the "Play Chess" button appears, press it to begin the game
   <div class="piohide" id="change_username">
     <button class="login_txt"  id="login_run" onclick="login_Run()">Use Previous User Name</button>
     <input class="login_txt"  id="username" placeholder="Login Name"  value=""  type="text" />
-  </div> <!-- end change_username -->
-</div> <!-- welcome -->
+  </div> 
+</div>
+ -->
+
+
 
 <!--</div> <!--  end "homeTab" - to match opening <div>  at WELCOME TAB START above -->
 
@@ -1569,15 +1573,7 @@ function login_Run() {
             var sf1 = 1;
 
 } 
-
-function login_Run_1_old() {
-    inputG.value = document.getElementById("text_id").value;
-    $("send_username").click();
-    console.log('login run1 old button clicked');
-    var sf1 = 1;
-
-}  
-
+ 
 function login_Run_1(selected_user) {
     //inputG.value = document.getElementById("text_id").value;
     inputG.value = selected_user
