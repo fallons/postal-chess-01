@@ -1,7 +1,7 @@
 console.log('**************************************************************************************');
 console.log('*      ========= secret-shore-85438 ========                                         *');
 console.log('*      ========= postgresql-perpendicular-72828 using connection string ========     *');       
-console.log('*      ==== USES table01 =====                                                       *');
+console.log('*      ==== USES chess_table =====                                                       *');
 console.log('*                                                    xx        YY                    *');
 console.log('**************************************************************************************');
 /*******/
@@ -112,7 +112,7 @@ app.get('/', async (req, res) => {
   console.log('/chess route');
   const client = await pool.connect();
   //-------------------------------------------------------------------------------------
-  text = 'SELECT * FROM table01 WHERE id = $1'
+  text = 'SELECT * FROM chess_table WHERE id = $1'
   values = ['1']
   //-------------------------------------------------------------------------------------
   try {
@@ -225,7 +225,7 @@ app.post('/dbread', async (req, res) => {
   {
   // give the query a unique name
   name: 'read-board-index',
-  text: "SELECT * FROM table01 WHERE id = $1",
+  text: "SELECT * FROM chess_table WHERE id = $1",
   values: [row_id],
   }   
   
@@ -291,7 +291,7 @@ app.post('/updbim', async (req, res) => {
   var query = {
   //give the query a unique name
   name: 'upd-bim',
-  text: "UPDATE table01 SET board_image = $2, saver_uid = $3  WHERE id = $1",
+  text: "UPDATE chess_table SET board_image = $2, saver_uid = $3  WHERE id = $1",
   values: [row_id, row_data1, row_saver_uid]
   }
   // callback
@@ -937,7 +937,7 @@ app.get('/dbselectall', async (req, res) => {
   reqObj = JSON.parse(JSON.stringify(req.query));
   const client = await pool.connect();
   //const result = await client.query('SELECT * FROM chess2 ORDER BY id');
-  const result = await client.query('SELECT * FROM table01 ORDER BY id');
+  const result = await client.query('SELECT * FROM chess_table ORDER BY id');
   const results = { 'results': (result) ? result.rows : null};
   client.release();
 
