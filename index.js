@@ -1,7 +1,7 @@
 console.log('**************************************************************************************');
 console.log('*      ========= secret-shore-85438 ========                                         *');
 console.log('*      ========= postgresql-perpendicular-72828 using connection string ========     *');       
-console.log('*      ==== USES chess_table =====                                                       *');
+console.log('*      ==== USES chess_table =====                                                   *');
 console.log('*                                                    xx        YY                    *');
 console.log('**************************************************************************************');
 /*******/
