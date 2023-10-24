@@ -107,7 +107,7 @@ if (!pid_cookie) {
 
 //=================================================================================================
 // MAIN ENTRY POINT
-// this is the / route which loads the game.ejs page
+// this is the / route which loads the game.ejs page ..
 //=================================================================================================
 app.get('/', async (req, res) => {
   console.log('/chess route');
