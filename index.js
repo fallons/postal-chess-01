@@ -1128,6 +1128,7 @@ io.sockets.on('connection', function(socket) {
       console.log(socket.id);
 
       var i = allClients.indexOf(socket);
+      console.log('index of client = ' , i )
       allClients.splice(i, 1);
    });
 });
