@@ -1057,6 +1057,7 @@ console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXYYAA');
 //var mysocket = socket;
 var keys = Object.keys(socket);
 console.log( keys[ 0 ] ); //or console.log( keys.join(",") )
+console.log(socket.nsp.name)
 console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXYYAA');
 
 console.log(socket.id);
