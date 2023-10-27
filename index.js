@@ -1054,7 +1054,7 @@ const io = require("socket.io")(server)
 io.on('connection', (socket) => {
 console.log('New browser connected to secret-shore-85438 socket.io server XXX');
 console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXYYAA');
-JSON.parse(socket);
+JSON.stringify(socket);
 console.log(socket.id);
 console.log('browswer id = ' , socket.browserid)
 
