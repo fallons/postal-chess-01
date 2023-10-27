@@ -1116,5 +1116,19 @@ socket.on('disconnect', function(){
   console.log('disconnect event from clientid ' + socket.clientid);
 });
 
+//--------------------------------------------------------------------------------------
+var allClients = [];
+io.sockets.on('connection', function(socket) {
+   allClients.push(socket);
+
+   socket.on('disconnect', function() {
+      console.log('Got disconnect!');
+
+      var i = allClients.indexOf(socket);
+      allClients.splice(i, 1);
+   });
+});
+//--------------------------------------------------------------------------------------
+
 })
 
