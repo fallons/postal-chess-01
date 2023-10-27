@@ -65,9 +65,13 @@ app.get('/xx', (req, res) => {
   console.log('**** req cookies ****' + JSON.stringify(req.cookies));
   console.log('**** req query **** ' + req.query.p1) 
   
-  var pid_cookie = req.cookies.playerid
+  var pid_cookie = req.cookies.playerid;
 
-  console.log(pid_cookie)
+  console.log(pid_cookie);
+
+  var io_cookie = req.cookies.io;
+
+  console.log(io_cookie);
 
   let options = {
       maxAge: 1000 * 60 * 576000 // would expire after 400 days (576000 minutes)
