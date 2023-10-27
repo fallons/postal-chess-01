@@ -1119,6 +1119,7 @@ socket.on('disconnect', function(){
 //--------------------------------------------------------------------------------------
 var allClients = [];
 io.sockets.on('connection', function(socket) {
+   console.log('new code for io.sockets.on XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
    allClients.push(socket);
 
    socket.on('disconnect', function() {
