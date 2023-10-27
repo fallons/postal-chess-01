@@ -80,6 +80,8 @@ app.get('/xx', (req, res) => {
   }
 
   // Set cookie
+
+
  
 
   function makeid(length) {
@@ -1053,6 +1055,11 @@ server = app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
 //================================================================================================
 //socket.io instantiation
 const io = require("socket.io")(server)
+
+  // called during the handshake
+  io.engine.on("initial_headers", (headers, request) => {
+    headers["set-cookie"] = serialize("uid", "1234", { sameSite: "strict" });
+  });
 
 //listen on every connection
 io.on('connection', (socket) => {
