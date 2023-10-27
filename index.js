@@ -1054,6 +1054,7 @@ const io = require("socket.io")(server)
 io.on('connection', (socket) => {
 console.log('New browser connected to secret-shore-85438 socket.io server XXX');
 console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXYYAA');
+console.log(socket.id);
 
 //set default username
 socket.username = "Anonymous"
@@ -1124,6 +1125,7 @@ io.sockets.on('connection', function(socket) {
 
    socket.on('disconnect', function() {
       console.log('Got disconnect!');
+      console.log(socket.id);
 
       var i = allClients.indexOf(socket);
       allClients.splice(i, 1);
