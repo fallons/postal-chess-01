@@ -117,6 +117,12 @@ if (!pid_cookie) {
 //=================================================================================================
 app.get('/', async (req, res) => {
   console.log('/chess route');
+  
+  // called during the handshake
+  io.engine.on("initial_headers", (headers, request) => {
+    headers["set-cookie"] = serialize("uid", "1234", { sameSite: "strict" });
+  });
+
   const client = await pool.connect();
   //-------------------------------------------------------------------------------------
   text = 'SELECT * FROM chess_table WHERE id = $1'
@@ -1056,10 +1062,7 @@ server = app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
 //socket.io instantiation
 const io = require("socket.io")(server)
 
-  // called during the handshake
-  io.engine.on("initial_headers", (headers, request) => {
-    headers["set-cookie"] = serialize("uid", "1234", { sameSite: "strict" });
-  });
+
 
 //listen on every connection
 io.on('connection', (socket) => {
