@@ -1054,8 +1054,8 @@ const io = require("socket.io")(server)
 io.on('connection', (socket) => {
 console.log('New browser connected to secret-shore-85438 socket.io server XXX');
 console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXYYAA');
-var mysocket = socket;
-var keys = Object.keys(mysocket);
+//var mysocket = socket;
+var keys = Object.keys(socket);
 console.log( keys[ 0 ] ); //or console.log( keys.join(",") )
 
 console.log(socket.id);
