@@ -1118,6 +1118,11 @@ socket.on('new_message2c', (data) => {
   console.log('*test new_message2c ' + data.message + " ; " + "clientid " + data.clientid + " ; " + "unique_browserid " + data.unique_browserid);
   })
 
+socket.on('new_message3c', (data) => {
+  io.sockets.emit('new_message3c', {message : data.message, playerid : socket.playerid});
+  console.log('*test new_message3c ' + data.message + " ; " + "playerid " + data.playerid);
+  })  
+
   //----------------------------------------------------------------------------------------
 socket.on('message_browser', (data) => {
   console.log('********** message_browser ' + data.message);
