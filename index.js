@@ -117,11 +117,8 @@ if (!pid_cookie) {
 //=================================================================================================
 app.get('/', async (req, res) => {
   console.log('/chess route');
-  
-  // called during the handshake
-  io.engine.on("initial_headers", (headers, request) => {
-    headers["set-cookie"] = serialize("uid", "1234", { sameSite: "strict" });
-  });
+
+
 
   const client = await pool.connect();
   //-------------------------------------------------------------------------------------
