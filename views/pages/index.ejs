@@ -21,14 +21,20 @@
 
 <!DOCTYPE html>
 <!--
-This code checks that it has been invoked from 2 different browser instances - A and B.
+This code checks that 2 instances are running. (We'll call them A and B)
+
 When instance A is started the user presses the 'Connect' button.
-This calls causes a connect.io message to be sent via the connect.io server with a unique 'key' to browser B
-If browser B is running, when the message arrives B will send an acknowledgement with B's own unique key..
+This calls causes an attempt to send a message via the socket.io server with a unique 'key' to browser B.
+
+CASE 1- 
+If browser B IS running, when the message arrives B will send an acknowledgement with B's own unique key..
 In turn A will send an acknowlegement.
 When either browser has recieved a message with a different 'key' an it knows that the 'other' is running
-and it sets a variable locally - 'allow-chess'
-This will make visible a button that calls the chess app url
+and calls unhide_chess() This will make visible a button that calls the chess app url.
+
+CASE 2-
+If browser B is NOT running it cannot receive the message from A so cannot send the acknowledgement to browser A.
+
 [19/02/2023] we use '3c' suffix for socketp.io so we can integrate with other clients
 without stepping on their suffixes, which are '2c' and blank
 
