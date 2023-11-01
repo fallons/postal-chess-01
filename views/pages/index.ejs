@@ -23,6 +23,10 @@
 <!--
 This code checks that 2 instances are running. (We'll call them A and B)
 
+A and B must NOT be running on 2 tabs of the same browser becuse of my design - it is probably do-able but I did not want to spend time on it
+as the primary use case is 2 players using their individual PC in separate locations.
+I did testing using 2 browser instances on my laptop (Chrome and Firefox)
+
 When instance A is started the user presses the 'Connect' button.
 This calls causes an attempt to send a message via the socket.io server with a unique 'key' to browser B.
 
@@ -64,6 +68,9 @@ without stepping on their suffixes, which are '2c' and blank
 <p>secret-shore-85438</p>
 <p>file name: index.ejs</p>
 <p>Connect Landing Page</p>
+<p>Press "Connect" until "Continue" button is displayed, then Press press "Continue"</p>
+<p>If "Continue" button is not displayed wait for the other player to "Connect"</p>
+
 
 
 <p id="other_msg" style="color: red; font-size: larger; "></p>
@@ -80,7 +87,7 @@ without stepping on their suffixes, which are '2c' and blank
 
 <button class="hide_me" id="btn_chess"   onclick="call_chess()">Continue</button>
 
-<p>Press "Connect" until "Continue" shown, then Press press "Continue"</p>
+
 
 
 <script>
