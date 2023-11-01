@@ -273,7 +273,7 @@ break
 
 if (origin != g_playerid) {  // message is from 'other'
 g_other_seen = 1;
-clog('we got a message from other so call unhide_chess');
+clog('we got a message from other party called...' + origin + '...so call unhide_chess');
 //**unhide_chess();
 unhide_chess();
 
