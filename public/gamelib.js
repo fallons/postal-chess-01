@@ -2433,10 +2433,8 @@ break;
 //-----------------------------------------------------------------------------------------------
 case "save" :    //SAVE GAME
 dlog('save');
-if (!g_allow_save) {
-  dlog('unable to save - no move made');
-  return;
-}
+if (!g_allow_save) { wmsg("Please Complete Move"); return;}
+
 unscreen_white();
 //------------------------------------------------
 // new code
