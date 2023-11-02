@@ -2461,6 +2461,7 @@ var nextUp = lsGet("foedisplay_colour")
 if (nextUp == "White") {whiteToMove()}
 if (nextUp == "Black") {blackToMove()}
 lsSet("next_action","Await_foe_move")
+g_allow_save = false // onlly allow to save once
 break;
 //-------------------------------------------------------------------------------------------------
 case "refresh" :
