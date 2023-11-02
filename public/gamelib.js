@@ -190,6 +190,7 @@ function sq_clicked(obj) {
 // second time we  white a "target square"  aiming to put the piece in our 'hand' into that "target square"
 // we will be checking that the "target square" is a validTarget - 'if (!validTarget)' code below..
 //-------------------------------------------------------------------------------------------------
+g_allow_save = false; // this gets made 'true' when putdown code has completed
 console.log('==> begin sq_clicked ' + obj.id);
 console.log("next action is "  + lsGet('next_action'))
 var mycolour = lsGet("mycolour");
