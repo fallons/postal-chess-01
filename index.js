@@ -54,7 +54,6 @@ app.use(cors())
 // when the app is opened we see if a cookie named 'playerid' was sent
 // if it was NOT we send one which will persist so next time we will skip the
 // writing of a new one
-// NOTE: *** this was the / route but is not invoked at present - needs more development effort
 //=================================================================================================
 app.get('/', (req, res) => {
   console.log('**** / route ****')
@@ -67,7 +66,7 @@ app.get('/', (req, res) => {
   
   var pid_cookie = req.cookies.playerid;
 
-  console.log(pid_cookie);
+  console.log('playerid cookie = ' +pid_cookie);
 
   var io_cookie = req.cookies.io;
 
@@ -80,9 +79,6 @@ app.get('/', (req, res) => {
   }
 
   // Set cookie
-
-
- 
 
   function makeid(length) {
     let result = '';
