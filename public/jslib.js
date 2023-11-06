@@ -607,17 +607,17 @@ dlogX('g_bi_ar ' + ' ' + i + ' ' + g_bi_ar[i]);
 // *** displaySingle_bi_ar() ***
 //=================================================================================================
 function displaySingle_bi_ar() {
-dlog('*** displeySingle_bi_ar');
+dlogX('*** displeySingle_bi_ar');
 let myIndex = document.getElementById("keyparm2").value;
 let myValue = g_bi_ar[myIndex];
-dlog('Index ' + myIndex + ' Value ' + myValue);
+dlogX('Index ' + myIndex + ' Value ' + myValue);
 } 
 //=================================================================================================
 // display_single_bi_ar() 
 //=================================================================================================
 function display_single_bi_ar(bi) {
-dlog('single board array')
-dlog('single g_bi_ar ' + bi + ' ' + g_bi_ar[bi]);
+dlogX('single board array')
+dlogX('single g_bi_ar ' + bi + ' ' + g_bi_ar[bi]);
 }
 //===============================================================================================
 // testemit()
@@ -634,7 +634,7 @@ console.log('==> testemit2c');
 var mymsg = "Test Message 2C";
 socket.emit('new_message2c', {message : mymsg})
 sf2=2;
-dlog('<== testemit2c')
+dlogX('<== testemit2c')
 }
 //=================================================================================================
 // *** listAll_LS() ***
@@ -700,8 +700,8 @@ function(data) { {
 // test function
 //=================================================================================================
 function testf_01(obj) {
-dlog('==> testf_01');
-dlog('<== testf_01');
+dlogX('==> testf_01');
+dlogX('<== testf_01');
 }
 //=================================================================================================
 // handle login form
@@ -760,7 +760,7 @@ socket.on("new_message2c", (data) => {
 feedback2c.html('');
 message2c.val('');
 chatroom2c.append("<p class='message'>" + data.clientid + ": " + data.message + "</p>")
-dlog('client id: ' + data.clientid + ' sent message: ' + data.message);
+dlogX('client id: ' + data.clientid + ' sent message: ' + data.message);
 messageHandler(data.clientid, data.message);
 })
 //-----------------------------------------------------------------------------------------------
@@ -771,7 +771,7 @@ document.getElementById("info_01").innerHTML = clientid.val()
 socket.emit('change_clientid', {clientid : clientid.val()} )
 var myclientid = clientid.val();
 lsSet("clientid", myclientid);
-dlog('client id is ' + lsGet("clientid"))
+dlogX('client id is ' + lsGet("clientid"))
 })
 //Emit typing
 message2c.bind("keypress", () => {
