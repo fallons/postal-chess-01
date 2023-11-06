@@ -364,11 +364,11 @@ var table = document.getElementById("wlog");
 table.innerHTML = "";
 }
 //=================================================================================================
-// dlog() a utility to print daignostic information
+// dlog() a utility to print daignostic information (not used)
 //=================================================================================================
-function dlog(textToAppend) {
-  console.log('dlog: ' +  textToAppend)
-}
+//function dlog(textToAppend) {
+// console.log('dlog: ' +  textToAppend)
+//}
 //=================================================================================================
 // dlogX() a utility to print daignostic information
 //=================================================================================================
