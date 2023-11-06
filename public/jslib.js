@@ -364,11 +364,11 @@ var table = document.getElementById("wlog");
 table.innerHTML = "";
 }
 //=================================================================================================
-// dlog() a utility to print daignostic information (not used)
+// dlog() a utility to print daignostic information (keep in case we need detailed logging of game)
 //=================================================================================================
-//function dlog(textToAppend) {
-// console.log('dlog: ' +  textToAppend)
-//}
+function dlog(textToAppend) {
+ console.log('dlog: ' +  textToAppend)
+}
 //=================================================================================================
 // dlogX() a utility to print daignostic information
 //=================================================================================================
