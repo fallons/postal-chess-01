@@ -1302,7 +1302,7 @@ document.getElementById(g_sh_arr[i]).src = img;
 // in the 'tab' which has a class of "tabcontent"
 // for example the first <div> in our 'Login' tab looks like this ... <div id="Login" class="tabcontent">
   function openTab(evt, tabName) {
-  dlog('*** openTab ' +tabName);
+  dlogX('*** openTab ' +tabName);
   var i, tabcontent, tablinks;
   switch (tabName) {
 //-----------------------------------------------------------------------------
@@ -1389,7 +1389,7 @@ case "homeTab":
   break;
   //---------------------------------------------------------------------------
   default:
-  dlog('case not matched');
+  dlogX('case not matched');
 }
 }
 //=================================================================================================
