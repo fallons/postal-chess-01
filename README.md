@@ -6,7 +6,7 @@
 # but making that better will need some fundemental restructuring
 # which is probably not a good use of time.
 
-# This was project was a way to learn this platform and it has been a great learing experience
+# This was project was a way to learn this platform and it has been a great learning experience
 
 # SF 08/03/2023
 
