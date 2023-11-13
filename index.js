@@ -135,6 +135,61 @@ app.get('/chess', async (req, res) => {
   }
 })
 //=================================================================================================
+// MAIN ENTRY POINT
+// this is the / route which loads the game.ejs page ..
+//=================================================================================================
+app.get('/chessw', async (req, res) => {
+  console.log('/chessw route');
+
+
+
+  const client = await pool.connect();
+  //-------------------------------------------------------------------------------------
+  text = 'SELECT * FROM chess_table WHERE id = $1'
+  values = ['1']
+  //-------------------------------------------------------------------------------------
+  try {
+  const result = await client.query(text,values);
+  const results = { 'results': (result) ? result.rows : null};
+  console.log("===> results: " + JSON.stringify(results));
+  console.log(results.results[0].id);
+  var result_id = (results.results[0].id);
+  res.render('pages/game_w' , results);
+  client.release();
+  } catch (err) {
+ console.error('Error ' + err);
+ res.send("Error " + err)
+  }
+})
+//=================================================================================================
+// MAIN ENTRY POINT
+// this is the / route which loads the game.ejs page ..
+//=================================================================================================
+app.get('/chessb', async (req, res) => {
+  console.log('/chessb route');
+
+
+
+  const client = await pool.connect();
+  //-------------------------------------------------------------------------------------
+  text = 'SELECT * FROM chess_table WHERE id = $1'
+  values = ['1']
+  //-------------------------------------------------------------------------------------
+  try {
+  const result = await client.query(text,values);
+  const results = { 'results': (result) ? result.rows : null};
+  console.log("===> results: " + JSON.stringify(results));
+  console.log(results.results[0].id);
+  var result_id = (results.results[0].id);
+  res.render('pages/game_b' , results);
+  client.release();
+  } catch (err) {
+ console.error('Error ' + err);
+ res.send("Error " + err)
+  }
+})
+
+//=================================================================================================
 // this is the /api route NO CHANGES NEEDED TO INTEGRATE GENTLE CAVERNS
 //=================================================================================================
 app.get('/api', (req, res) => {
