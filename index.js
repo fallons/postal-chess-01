@@ -136,7 +136,7 @@ app.get('/chess', async (req, res) => {
 })
 //=================================================================================================
 // MAIN ENTRY POINT
-// this is the / route which loads the game.ejs page ..
+// this is the /chessw route which loads the game_w.ejs page ..
 //=================================================================================================
 app.get('/chessw', async (req, res) => {
   console.log('/chessw route');
@@ -163,7 +163,7 @@ app.get('/chessw', async (req, res) => {
 })
 //=================================================================================================
 // MAIN ENTRY POINT
-// this is the / route which loads the game.ejs page ..
+// this is the /chessb route which loads the game_b.ejs page ..
 //=================================================================================================
 app.get('/chessb', async (req, res) => {
   console.log('/chessb route');
