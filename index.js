@@ -113,9 +113,6 @@ if (!pid_cookie) {
 //=================================================================================================
 app.get('/chess', async (req, res) => {
   console.log('/chess route');
-
-
-
   const client = await pool.connect();
   //-------------------------------------------------------------------------------------
   text = 'SELECT * FROM chess_table WHERE id = $1'
@@ -140,9 +137,6 @@ app.get('/chess', async (req, res) => {
 //=================================================================================================
 app.get('/chessw', async (req, res) => {
   console.log('/chessw route');
-
-
-
   const client = await pool.connect();
   //-------------------------------------------------------------------------------------
   text = 'SELECT * FROM chess_table WHERE id = $1'
@@ -167,9 +161,6 @@ app.get('/chessw', async (req, res) => {
 //=================================================================================================
 app.get('/chessb', async (req, res) => {
   console.log('/chessb route');
-
-
-
   const client = await pool.connect();
   //-------------------------------------------------------------------------------------
   text = 'SELECT * FROM chess_table WHERE id = $1'
