@@ -83,9 +83,6 @@ Disable various hidden button on the UI (ribbon1)
 
 <button class="hide_me" id="btn_chess"   onclick="call_chess()">Continue</button>
 
-<button class="hide_me" id="btn_select_w"   onclick="call_chessw()">Play as White</button>
-
-<button class="hide_me" id="btn_select_b"   onclick="call_chessb()">Play as Black</button>
 
 
 <script>
@@ -188,45 +185,7 @@ function call_chess() {
 
   }
 
- //================================================================================================
-// call_chessw
-//================================================================================================
-function call_chessw() {
 
-// if (!g_connect_pressed) {
-//clog('you must press Connect before Continue')
-//  }else{
-
- clog('playerid ' + g_playerid + ' pressed Chess W button')
-
- // put in a way to put the chess page in the browser
-
- window.location.href = "https://secret-shore-85438.herokuapp.com/chessw"; 
- //window.location.href = "https://secret-shore-85438.herokuapp.com/"; 
-
-  }
- //================================================================================================
-// call_chessb
-//================================================================================================
-function call_chessb() {
-
-// if (!g_connect_pressed) {
-//clog('you must press Connect before Continue')
-//  }else{
-
- clog('playerid ' + g_playerid + ' pressed Chess B button')
-
- // put in a way to put the chess page in the browser
-
- window.location.href = "https://secret-shore-85438.herokuapp.com/chessb"; 
- //window.location.href = "https://secret-shore-85438.herokuapp.com/"; 
-
-  } 
-  
-
-
-
-  //}  
 //================================================================================================
 // call_connect_me
 //================================================================================================
