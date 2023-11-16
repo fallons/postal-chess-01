@@ -4562,7 +4562,7 @@ case "retouch_other" :
 dlogX('retouch_other recieved from ' + idOrigin);
 document.getElementById("other_msg").innerHTML =  myClientId + " says... " + idOrigin + " my retouch"
 if (idOrigin == "w" || idOrigin == "b") {
-  //unhide_openchess();
+  unhide_openchess(); // XXXXXXXXXXXXXXXXXXXXXXXXXX lastchange //
 }
 break;
 //=================================================================================================
