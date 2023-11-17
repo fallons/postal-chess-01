@@ -51,6 +51,15 @@ Disable various hidden button on the UI (ribbon1)
     color: red;
   }
 
+  .round_btn {
+    background-color: rgb(52, 238, 52);
+   height: 50px;
+   width: 300px;
+   border-radius: 15%;
+   font-size: xx-large;
+   /*margin: 60px;*/
+}
+
   body {
   /* The image used */
   background-image: url("glass_chess.jpg");
@@ -95,7 +104,7 @@ Disable various hidden button on the UI (ribbon1)
     <textarea name="clog" id="clog" placeholder="connect log..." class="vertical-align" cols="40" rows="15" hidden></textarea>
   </section>
 
-<button class="show_me" id="btn_connect" onclick="call_connect_me()">Click to Connect</button>
+<button class="round_btn show_me" id="btn_connect" onclick="call_connect_me()">Click to Connect</button>
 
 <button class="hide_me" id="btn_chess"   onclick="call_chess()">Continue</button>
 
