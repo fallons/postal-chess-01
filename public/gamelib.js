@@ -4509,6 +4509,7 @@ dlogX('reply_other recieved from ' + idOrigin);
 //alert('reply other recieved from ' + idOrigin + 'by ' + myClientId);
 document.getElementById("other_msg").innerHTML =  myClientId + " says... " + idOrigin + " is logged on"
 if (idOrigin == "w" || idOrigin == "b") {
+  console.log('call unhide_opechess');
   unhide_openchess();
 }
 break;
@@ -4562,6 +4563,7 @@ case "retouch_other" :
 dlogX('retouch_other recieved from ' + idOrigin);
 document.getElementById("other_msg").innerHTML =  myClientId + " says... " + idOrigin + " my retouch"
 if (idOrigin == "w" || idOrigin == "b") {
+  console.log('call unhide_opechess');
   unhide_openchess(); // XXXXXXXXXXXXXXXXXXXXXXXXXX lastchange //
 }
 break;
