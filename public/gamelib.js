@@ -4521,7 +4521,7 @@ document.getElementById("other_msg").innerHTML =  myClientId + " says... " + idO
 if (idOrigin == "w" || idOrigin == "b") {
   console.log('call unhide_opechess');
   unhide_openchess();
-  
+
   console.log('call tell other to run_open_chess');
   tell_other_to_run_open_chess()
 }
@@ -4585,7 +4585,7 @@ if (idOrigin == "w" || idOrigin == "b") {
 case "tell_other_to_run_open_chess" :
 console.log('tell_other_to_run_open_chess');  
 dlogX('tell_other_to_run_open_chess ' + idOrigin);
-undide_openchess()
+unhide_openchess();
 break;
 //=================================================================================================
 
