@@ -4025,6 +4025,16 @@ function retouch_other(target) {
   }
 
 //=================================================================================================
+// new function 
+//=================================================================================================
+function tell_other_to_run_open_chess() {
+  dlog('==> begin tell_other_to_run_open_chess');
+  txMsg(myClientId,"001,tell_other_to_run_open_chess");
+  //
+  dlog('<== end tell_other_to_run_open_chess');
+  }  
+
+//=================================================================================================
 // general service functions end
 //=================================================================================================
 
@@ -4511,6 +4521,9 @@ document.getElementById("other_msg").innerHTML =  myClientId + " says... " + idO
 if (idOrigin == "w" || idOrigin == "b") {
   console.log('call unhide_opechess');
   unhide_openchess();
+  
+  console.log('call tell other to run_open_chess');
+  tell_other_to_run_open_chess()
 }
 break;
 //=================================================================================================
@@ -4566,6 +4579,13 @@ if (idOrigin == "w" || idOrigin == "b") {
   console.log('call unhide_opechess');
   unhide_openchess(); // XXXXXXXXXXXXXXXXXXXXXXXXXX lastchange //
 }
+//=================================================================================================
+// new code to tell other to make the 'play chess' buttom visible
+//=================================================================================================
+case "tell_other_to_run_open_chess" :
+console.log('tell_other_to_run_open_chess');  
+dlogX('tell_other_to_run_open_chess ' + idOrigin);
+undide_openchess()
 break;
 //=================================================================================================
 
