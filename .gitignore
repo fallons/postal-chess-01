@@ -10,3 +10,34 @@ npm-debug.log
 # Docker
 Dockerfile
 docker-compose.yml
+
+# Dependencies
+node_modules/
+
+# Env & secrets
+.env
+.env.* 
+
+# Logs & debug
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# Build output / caches
+dist/
+build/
+.cache/
+coverage/
+
+# Editors/OS junk
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Misc
+*.tgz
+
